@@ -1,2 +1,4 @@
 app/components
 !app/components/io-bundle
+!app/components/nested-menu
+!app/components/div-bundle

@@ -4,3 +4,9 @@
 [submodule "app/components/io-bundle"]
 	path = app/components/io-bundle
 	url = https://github.com/arodic/io-bundle.git
+[submodule "app/components/div-bundle"]
+	path = app/components/div-bundle
+	url = https://github.com/arodic/div-bundle.git
+[submodule "app/components/nested-menu"]
+	path = app/components/nested-menu
+	url = https://github.com/arodic/nested-menu.git

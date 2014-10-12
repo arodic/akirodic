@@ -1,0 +1,76 @@
+<polymer-element name="app-jfish">
+  <script type="text/javascript" src="js/SkyBox.js"></script>
+  <script type="text/javascript" src="js/Jellyfish.js"></script>
+  <script type="text/javascript" src="js/Plankton.js"></script>
+  <script type="text/javascript" src="js/World.js"></script>
+  <template>
+    <three-editor id="editor"></three-editor>
+  </template>
+  <script>
+    Polymer({
+      domReady: function() {
+
+        var globals = {
+          uuid: "globals",
+          time: 0,
+          uFogTopCol: new THREE.Color(0.7,0.8,1.0),
+          uFogBottomCol: new THREE.Color(0.15,0.15,0.2)
+        };
+
+        var editor = this.$.editor;
+        var world = new THREE.World(globals);
+
+        globals.camera = editor.viewport.camera;
+        editor.scene.add(world);
+
+        var animate = function() {
+          requestAnimationFrame( animate );
+          globals.time = (new Date().getTime() / 1000) % 10000;
+          world.update(editor.viewport.camera);
+          editor.viewport.render();
+        };
+
+        animate();
+
+        editor.attributeEditor.model = globals;
+        editor.attributeEditor.advanced = true;
+      // attributes.globals = {
+      //     "uShaderDebug": { min: "0", max: "9", step: "1" },
+      //     "uFogDist": { min: "0", max: "1000", step: "1" },
+      //     "uFresnelCol": { min: "0", max: "1" },
+      //     "uFresnelPower": { min: "0", max: "1000", step: "1" },
+      //     "uLightPos": { step: "1" },
+      //     "uLightCol": { min: "0", max: "1", step: "0.05" },
+      //     "uLightSpecCol": { min: "0", max: "1", step: "0.05" },
+      //     "uLightRadius": { min: "0", max: "1000", step: "1" },
+      //     "uLightSpecPower": { min: "0", max: "10", step: "0.1" },
+      //     "uAmbientCol": { min: "0", max: "1", step: "0.05" },
+      //     "uNear": { min: "0", max: "1" },
+      //     "uFar": { min: "1", max: "1000", step: "1" },
+      //     "uFov": { min: "0", max: "180", step: "1" },
+      //     "jCount": { min: "0", max: "100", step: "1" },
+      //     "jScale": { min: "0", max: "10", step: "0.1" },
+      //     "jScaleRandom": { min: "0", max: "100", step: "0.1" },
+      //     "jTurb": { min: "0", step: "0.001" },
+      //     "jSpeed": { min: "0", step: "0.001" },
+      //     "jRepel": { min: "0", step: "0.1" },
+      //     "jGravity": { min: "-1", max: "1", step: "0.005" },
+      //     "jSpring": { min: "0", max: "10", step: "0.1" },
+      //     "jMass": { min: "0", max: "1", step: "0.01" },
+      //     "jStiffness": { min: "0", max: "1", step: "0.01" },
+      //     "jDamping": { min: "0", max: "1", step: "0.001" },
+      //     "uBbox": { min: "0", max: "1000", step: "1" },
+      //     "pCount": { min: "0", max: "1000", step: "1" },
+      //     "pScale": { min: "0", max: "10", step: "0.1" },
+      //     "pScaleRandom": { min: "0", max: "10", step: "0.1" },
+      //     "pFlow": { min: "-1", max: "1", step: "0.01" },
+      //     "pTurbAmp": { min: "0", max: "100", step: "0.01" },
+      //     "pTurbFreq": { min: "0", max: "100", step: "0.1" },
+      //     "rCount": { min: "0", max: "100", step: "1" },
+      //     "rSpeed": { min: "0", max: "1", step: "0.001" },
+      // };
+
+      }
+    });
+  </script>
+</polymer-element>
