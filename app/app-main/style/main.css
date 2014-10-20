@@ -1,0 +1,152 @@
+body {
+  background: #000;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  margin:  0;
+  padding:  0;
+  font-family:  'Monda', sans-serif;
+}
+#container{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+#fullScreen{
+  position: absolute;
+  bottom: 0;
+  z-index: 100;
+  color: #fff;
+}
+#three{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 100;
+  color: #fff;
+}
+#three a {
+  color: #fff;
+}
+#log{
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  text-align: right;
+  z-index: 100;
+  color: #fff;
+}
+.page{
+  position: fixed;
+  display: none;
+  opacity: 0.75;
+  background: rgba(255,255,255,0.75);
+  font-size: 26px;
+  line-height: 38px;
+  color: #222;
+}
+.page article {
+  margin: 35px;
+  padding-bottom: 35px;
+  border-bottom: 2px rgba(255,255,255,0.25) solid;
+}
+.page .close{
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
+  line-height: 26px;
+}
+.page p {
+  margin: 15px 0;
+  font-size: 23px;
+  line-height: 28px;
+}
+.page h1 {
+  font-size: 38px;
+  line-height: 38px;
+}
+.page h1 a {
+  color: #454;
+  text-decoration: none;
+  font-weight: bold;
+}
+.page h2 {
+  font-size: 26px;
+  line-height: 35px;
+  background: rgba(255,255,255,0.25);
+  padding: 10px;
+}
+.page h2 img.thumb {
+  width: 256px;
+  height: 256px;
+  margin: -10px 20px -10px -10px;
+  display: block;
+  float: left;
+  clear: both;
+}
+.page em {
+  display: block;
+  font-style: italic;
+  color: #444;
+  background: rgba(255,255,255,0.25);
+  padding: 10px;
+}
+
+.page a {
+  color: #333;
+  -webkit-transition: color;
+  -webkit-transition-timing-function: ease-out;
+  -webkit-transition-duration: 300ms;
+  text-shadow: 0 0 3px #5588ff;
+}
+.page a:hover {
+  color: #77f;
+  -webkit-transition: color;
+  -webkit-transition-timing-function: ease-out;
+  -webkit-transition-duration: 300ms;
+}
+
+#blog ul li {
+ margin: 10px 0;
+ border-left: 4px solid #454;
+ margin-left: 15px;
+ padding-left: 15px;
+  background: rgba(255,255,255,0.25);
+}
+#blog ul{
+ margin: 25px 0;
+}
+#blog p.meta, #blog p.meta a {
+  line-height: 30px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  text-decoration: none;
+  color: #8a8;
+}
+
+#portfolio article h2 {
+  min-height: 236px;
+}
+#portfolio article {
+  margin: 35px 35px;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+#contact i {
+  margin-right: 20px;
+}
+#contact a{
+  text-decoration: none;
+}
+#contact ul li {
+  display: block;
+  font-size: 58px;
+  border-bottom: 2px #fff solid;
+  padding: 16px;
+  margin: 0 20px;
+}
+#contact ul li:last-child {
+  border-bottom: none;
+}

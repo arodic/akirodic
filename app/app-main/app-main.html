@@ -1,0 +1,113 @@
+  <!-- // <script src="js/navigation.js"></script> -->
+  <!-- <script src="js/tracking.js"></script> -->
+  <!-- // <script src="js/touches.js"></script> -->
+  <!-- // <script src="js/camera.js"></script> -->
+
+<link rel="import" href="../components/polymer/polymer.html">
+<link rel="import" href="../components/three-editor/three.html">
+
+<polymer-element name="app-main">
+  <template>
+    <script type="x-shader/x-vertex" id="vertexShader">
+      varying vec2 vUv;
+      void main() {
+      vUv = uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+      }
+    </script>
+    <script type="x-shader/x-fragment" id="fragmentShader">
+      uniform float phase;
+      varying vec2 vUv;
+      void main() {
+      float alpha = pow(1.0-abs(vUv.y-phase),10.0)*3.0+0.05;
+      gl_FragColor = vec4(0.05,0.15,0.1,alpha);
+      }
+    </script>
+    <three-editor id="editor"></three-editor>
+  </template>
+  <script>
+  (function(){
+
+    var loader = new THREE.ColladaLoader();
+
+    Polymer({
+      publish: {
+        scene: null,
+        light: null,
+        texture: null,
+        object: null,
+        material: null
+      },
+      ready: function() {
+
+        this.scene = this.scene || new THREE.Scene();
+
+        var light = this.light = {};
+        var texture = this.texture = {};
+        var object = this.object = {};
+        var material = this.material = {};
+
+        texture['wall'] = new THREE.ImageUtils.loadTexture(this.resolvePath("models/wall.jpg"));
+        material['wall'] = new THREE.MeshPhongMaterial({
+          name: 'wallMaterial',
+          color: 0xFFFFFF,
+          map: texture['wall']
+        });
+
+        texture['cube'] = new THREE.ImageUtils.loadTexture(this.resolvePath("models/cube.jpg"));
+        material['cube'] = new THREE.MeshPhongMaterial({
+          name: 'cubeMaterial',
+          color: 0xFFFFFF,
+          map: texture['cube']
+        });
+
+        this.scene.add( new THREE.HemisphereLight(
+          0xeeeeee,
+          0x669999
+        ));
+
+        this.scene.add(new THREE.AmbientLight(
+          0x000000
+        ));
+
+        loader.load(this.resolvePath('./models/scene_raw.dae'), function ( collada ) {
+
+          var meshes = [];
+          var nulls = [];
+          collada.scene.traverse(function(object){
+            if (object instanceof THREE.Mesh) {
+              object.name = object.parent.name;
+              object.position.copy(object.parent.position);
+              meshes.push(object);
+              nulls.push(object.parent);
+            }
+          });
+          for (var i = 0; i < meshes.length; i++) {
+            meshes[i].parent.parent.add(meshes[i]);
+          }
+          for (var j = nulls.length; j--;) {
+            nulls[j].parent.remove(nulls[j]);
+          }
+
+          wall = collada.scene.children[1];
+          cubes = collada.scene.children[0];
+
+          wall.material = material['wall'];
+          cubes.traverse(function(object){
+            object.material = material['cube'];
+          });
+          
+          wall.scale.multiplyScalar(0.1);
+          cubes.scale.multiplyScalar(0.1);
+          
+          this.scene.add( wall );
+          this.scene.add( cubes );
+
+          this.scene.position.y = -0.5;
+
+        }.bind(this));
+      }
+    });
+  })();
+  </script>
+</polymer-element>
