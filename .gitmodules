@@ -7,9 +7,6 @@
 [submodule "app/components/div-bundle"]
 	path = app/components/div-bundle
 	url = https://github.com/arodic/div-bundle.git
-[submodule "app/components/three-editor"]
-	path = app/components/three-editor
-	url = https://github.com/arodic/three-editor.git
-[submodule "app/components/three-icons"]
-	path = app/components/three-icons
-	url = https://github.com/arodic/three-icons.git
+[submodule "app/components/three-bundle"]
+	path = app/components/three-bundle
+	url = https://github.com/arodic/three-bundle.git
