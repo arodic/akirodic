@@ -3,3 +3,4 @@ app/components/core*
 app/components/polymer
 app/components/platform
 app/components/three.js
+app/components/flatiron-director
