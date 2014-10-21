@@ -4,3 +4,7 @@ app/components/polymer
 app/components/platform
 app/components/three.js
 app/components/flatiron-director
+app/components/prismjs/
+app/components/prism-js/
+app/components/he/
+app/components/context-free-parser/

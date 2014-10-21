@@ -10,3 +10,6 @@
 [submodule "app/components/three-bundle"]
 	path = app/components/three-bundle
 	url = https://github.com/arodic/three-bundle.git
+[submodule "app/components/show-and-tell"]
+	path = app/components/show-and-tell
+	url = https://github.com/arodic/show-and-tell.git

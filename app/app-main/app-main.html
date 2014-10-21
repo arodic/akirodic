@@ -23,10 +23,9 @@
       gl_FragColor = vec4(0.05,0.15,0.1,alpha);
       }
     </script>
-    <three-editor id="editor"></three-editor>
   </template>
   <script>
-  (function(){
+  (function() {
 
     var loader = new THREE.ColladaLoader();
 
@@ -40,7 +39,7 @@
       },
       ready: function() {
 
-        this.scene = this.scene || new THREE.Scene();
+        this.scene = new THREE.Scene();
 
         var light = this.light = {};
         var texture = this.texture = {};
@@ -61,13 +60,13 @@
           map: texture['cube']
         });
 
-        this.scene.add( new THREE.HemisphereLight(
-          0xeeeeee,
-          0x669999
-        ));
+        // this.scene.add( new THREE.HemisphereLight(
+        //   0xeeeeee,
+        //   0x669999
+        // ));
 
         this.scene.add(new THREE.AmbientLight(
-          0x000000
+          0xffffff
         ));
 
         loader.load(this.resolvePath('./models/scene_raw.dae'), function ( collada ) {
