@@ -7,6 +7,7 @@
   <script src="components/platform/platform.js"></script>
 
   <link rel="import" href="app-main/app-main.html">
+  <link rel="import" href="app-materials/app-materials.html">
   <link rel="import" href="components/three-bundle/three-viewport.html">
   <link rel="import" href="components/three-bundle/three-editor.html">
   <link rel="import" href="components/show-and-tell/show-and-tell.html">
@@ -255,6 +256,12 @@
 
   <template if="{{route == '8'}}">
     <div id="slide" vertical center-justified layout center fit>
+      <h1>Lets make components</h1>
+    </div>
+  </template>
+
+  <template if="{{route == '9'}}">
+    <div id="slide" vertical center-justified layout center fit>
       <h1>This is a web component:</h1>
       <h2>three-viewport</h2>
       <show-and-tell></show-and-tell>
@@ -262,14 +269,14 @@
     </div>
   </template>
 
-  <template if="{{route == '9'}}">
+  <template if="{{route == '10'}}">
     <div id="slide" vertical center-justified layout center fit>
       <show-and-tell></show-and-tell>
       <three-viewport></three-viewport>
     </div>
   </template>
 
-  <template if="{{route == '10'}}">
+  <template if="{{route == '11'}}">
     <div id="slide" vertical center-justified layout center fit>
       <prism-js language="markup" escape="true">
 <app-main scene="{{scene}}"></app-main>
@@ -278,13 +285,13 @@
     </div>
   </template>
 
-  <template if="{{route == '11'}}">
+  <template if="{{route == '12'}}">
     <div id="slide" vertical center-justified layout center fit>
       <three-viewport scene="{{scene}}"></three-viewport>
     </div>
   </template>
 
-  <template if="{{route == '12'}}">
+  <template if="{{route == '13'}}">
     <div id="slide" vertical center-justified layout center fit>
       <prism-js language="markup" escape="true">
 <app-main scene="{{scene}}"></app-main>
@@ -296,7 +303,7 @@
     </div>
   </template>
 
-  <template if="{{route == '13'}}">
+  <template if="{{route == '14'}}">
     <app-main scene="{{scene}}"></app-main>
     <div main horizontal layout fit>
       <div flex vertical layout>
@@ -318,7 +325,7 @@
     </div>
   </template>
 
-  <template if="{{route == '14'}}">
+  <template if="{{route == '15'}}">
     <div id="slide" vertical center-justified layout center fit>
       <h2>three-outliner</h2>
       <show-and-tell></show-and-tell>
@@ -327,7 +334,7 @@
     </div>
   </template>
 
-  <template if="{{route == '15'}}">
+  <template if="{{route == '16'}}">
     <div id="slide" vertical center-justified layout center fit>
       <h2>three-outliner-item</h2>
       <show-and-tell></show-and-tell>
@@ -336,7 +343,7 @@
     </div>
   </template>
 
-  <template if="{{route == '16'}}">
+  <template if="{{route == '17'}}">
     <div id="slide" vertical center-justified layout center fit>
       <show-and-tell></show-and-tell>
       <three-outliner style="display: none;" scene="{{scene}}"></three-outliner>
@@ -360,7 +367,7 @@
     </div>
   </template>
 
-  <template if="{{route == '17'}}">
+  <template if="{{route == '18'}}">
     <div id="slide" vertical center-justified layout center fit>
       <prism-js language="markup" escape="true">
 <app-main scene="{{scene}}"></app-main>
@@ -370,7 +377,7 @@
     </div>
   </template>
 
-  <template if="{{route == '18'}}">
+  <template if="{{route == '19'}}">
     <app-main scene="{{scene}}"></app-main>
     <div main horizontal layout fit>
       <three-outliner style="width:200px; max-height: 100%;" scene="{{scene}}"></three-outliner>
@@ -380,7 +387,7 @@
     </div>
   </template>
 
-  <template if="{{route == '19'}}">
+  <template if="{{route == '20'}}">
     <div id="slide" vertical center-justified layout center fit>
       <h1>Add Responsiveness</h1>
       <h2>core-drawer-panel</h2>
@@ -402,7 +409,7 @@
     </div>
   </template>
 
-  <template if="{{route == '20'}}">
+  <template if="{{route == '21'}}">
     <div id="slide" vertical center-justified layout center fit>
       <h1>Add Responsiveness</h1>
       <h2>core-drawer-panel</h2>
@@ -424,7 +431,7 @@
     </div>
   </template>
 
-  <template if="{{route == '21'}}">
+  <template if="{{route == '22'}}">
     <core-drawer-panel style="width: 100%; height: 100%;">
       <app-main scene="{{scene}}"></app-main>
       <div drawer class="drawer">
@@ -440,7 +447,7 @@
     </core-drawer-panel>
   </template>
 
-  <template if="{{route == '22'}}">
+  <template if="{{route == '23'}}">
     <div id="slide" vertical center-justified layout center fit>
       <show-and-tell></show-and-tell>
       <io-inspector value="{{scene}}" expanded></io-inspector>
@@ -448,7 +455,7 @@
     </div>
   </template>
 
-  <template if="{{route == '23' || route == '25'}}">
+  <template if="{{route == '24' || route == '26'}}">
     <core-drawer-panel style="width: 100%; height: 100%;">
       <app-main scene="{{scene}}"></app-main>
       <div drawer class="drawer">
@@ -479,7 +486,7 @@
     </script>
   </template>
 
-  <template if="{{route == '24'}}">
+  <template if="{{route == '25'}}">
     <div id="slide" vertical center-justified layout center fit>
       <h1>Connecting Events</h1>
       <prism-js language="javascript" escape="true">
@@ -490,7 +497,7 @@ this.addEventListener('three-label-clicked', function(event){
     </div>
   </template>
 
-  <template if="{{route == '26'}}">
+  <template if="{{route == '27'}}">
     <div id="slide" vertical center-justified layout center fit>
       <h2>io-menu</h2>
       <show-and-tell></show-and-tell>
@@ -502,7 +509,7 @@ this.addEventListener('three-label-clicked', function(event){
     </script>
   </template>
 
-  <template if="{{route == '27'}}">
+  <template if="{{route == '28'}}">
     <div id="slide" vertical center-justified layout center fit>
       <h2>io-menu</h2>
       <prism-js language="javascript" escape="true">
@@ -525,7 +532,7 @@ menu.options = [
   </template>
 
 
-  <template if="{{route == '28'}}">
+  <template if="{{route == '29'}}">
     <core-header-panel fit>
       <io-menu class="core-header" id="menuBar" noHide horizontal></io-menu>
       <core-drawer-panel>
@@ -561,7 +568,56 @@ menu.options = [
     </script>
   </template>
 
-  <template if="{{route == '29'}}">
+  <template if="{{route == '30'}}">
+    <div id="slide" vertical center-justified layout center fit>
+      <h3>app-materials</h3>
+      <prism-js language="markup" escape="true">
+<app-materials scene="{{scene}}"></app-materials>
+<three-viewport scene="{{scene}}"></three-viewport>
+      </prism-js>
+    </div>
+  </template>
+
+  <template if="{{route == '31'}}">
+    <core-header-panel fit>
+      <io-menu class="core-header" id="menuBar" noHide horizontal></io-menu>
+      <core-drawer-panel>
+        <app-materials scene="{{scene_materials}}"></app-materials>
+        <div drawer class="drawer">
+          <div-collapsable label="Scene">
+            <three-outliner id="outliner" scene="{{scene_materials}}"></three-outliner>
+          </div-collapsable>
+        </div>
+        <core-drawer-panel main rightDrawer>
+          <div drawer class="drawer">
+            <io-inspector expanded></io-inspector>
+          </div>
+          <div main>
+            <three-viewport clearColor="0x000000" scene="{{scene_materials}}" fit></three-viewport>
+          </div>
+        </core-drawer-panel>
+      </core-drawer-panel>
+    </core-header-panel>
+    <script>
+      var app = document.querySelector('app-materials');
+      var inspector = document.querySelector('io-inspector');
+      var viewport = document.querySelector('three-viewport');
+      inspector.value = app.scene;
+      var menu = document.querySelector('io-menu');
+      menu.options = menuOptions;
+      document.addEventListener('three-label-clicked', function(event) {
+        inspector.value = event.detail.model;
+      });
+      document.addEventListener('app-changed', function(event) {
+        viewport.renderLater();
+      });
+      document.addEventListener('io-changed', function(event) {
+        viewport.renderLater();
+      });
+    </script>
+  </template>
+
+  <template if="{{route == '32'}}">
     <div id="slide" vertical center-justified layout center fit>
       <h1>Lessons Learned</h1>
       <h2>Design for general purpose</h2>
@@ -570,7 +626,7 @@ menu.options = [
     </div>
   </template>
 
-  <template if="{{route == '30'}}">
+  <template if="{{route == '33'}}">
     <div id="slide" vertical center-justified layout center fit>
       <h1>Thank you!</h1>
       <h2>Flux Factory Inc. - <a target="_blank"href="https://twitter.com/flux_io">@flux_io</a></h2>
@@ -587,7 +643,7 @@ menu.options = [
 
     function next() {
       director.route = (parseFloat(director.route) + 1);
-      director.route = Math.min(director.route, 30);
+      // director.route = Math.min(director.route, 30);
       setTimeout(bindShowAndTell, 1);
     }
 
