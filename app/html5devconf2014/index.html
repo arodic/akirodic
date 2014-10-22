@@ -250,15 +250,15 @@
 
   <template if="{{route == '7'}}">
     <div id="slide" vertical center-justified layout center fit>
-      <h1>Building with components</h1>
-      <h2>io-bundle</h2>
-      <h2>three-bundle</h2>
+      <h1>Building with web components</h1>
+      <h2><a target="_blank" href="https://github.com/arodic/io-bundle">io-bundle</a></h2>
+      <h2><a target="_blank" href="https://github.com/arodic/three-bundle">three-bundle</a></h2>
     </div>
   </template>
 
   <template if="{{route == '8'}}">
     <div id="slide" vertical center-justified layout center fit>
-      <h1>This is a web component:</h1>
+      <h1>This is a custom element:</h1>
       <h2>three-viewport</h2>
       <show-and-tell></show-and-tell>
       <three-viewport style="display: none;"></three-viewport>
@@ -282,6 +282,7 @@
   </template>
 
   <template if="{{route == '11'}}">
+    <app-main scene="{{scene}}"></app-main>
     <div id="slide" vertical center-justified layout center fit>
       <three-viewport scene="{{scene}}"></three-viewport>
     </div>
@@ -598,19 +599,22 @@ menu.options = [
   </template>
 
   <script>
+    var timeout;
     var director = document.querySelector('flatiron-director');
+
     if (director.route == '') director.route = 0;
 
     function next() {
       director.route = (parseFloat(director.route) + 1);
-      // director.route = Math.min(director.route, 30);
-      setTimeout(bindShowAndTell, 1);
+      clearTimeout(timeout);
+      timeout = setTimeout(bindShowAndTell, 100);
     }
 
     function prev() {
       director.route = (parseFloat(director.route) - 1);
       director.route = Math.max(director.route, 0);
-      setTimeout(bindShowAndTell, 1);
+      clearTimeout(timeout);
+      timeout = setTimeout(bindShowAndTell, 100);
     }
 
     document.addEventListener('keyup', function(e) {
