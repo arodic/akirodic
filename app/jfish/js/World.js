@@ -1,6 +1,6 @@
 THREE.World = function(globals){
 
-  THREE.Object3D.call( this );
+  THREE.Scene.call( this );
 
   this.name = "World";
 
@@ -14,29 +14,29 @@ THREE.World = function(globals){
   var jellyfish = new THREE.Jellyfish(globals);
   this.add(jellyfish);
 
-  var jellyfish2 = new THREE.Jellyfish(globals);
-  this.add(jellyfish2);
+  // var jellyfish2 = new THREE.Jellyfish(globals);
+  // this.add(jellyfish2);
 
-  var jellyfish3 = new THREE.Jellyfish(globals);
-  this.add(jellyfish3);
+  // var jellyfish3 = new THREE.Jellyfish(globals);
+  // this.add(jellyfish3);
 
-  var jellyfish4 = new THREE.Jellyfish(globals);
-  this.add(jellyfish4);
+  // var jellyfish4 = new THREE.Jellyfish(globals);
+  // this.add(jellyfish4);
 
-  var jellyfish5 = new THREE.Jellyfish(globals);
-  this.add(jellyfish5);
+  // var jellyfish5 = new THREE.Jellyfish(globals);
+  // this.add(jellyfish5);
 
-  this.update = function(camera) {
+  this.update = function() {
 
-    plankton.update(globals.time);
-    jellyfish.update(globals.time, camera);
-    jellyfish2.update(globals.time, camera);
-    jellyfish3.update(globals.time, camera);
-    jellyfish4.update(globals.time, camera);
-    jellyfish5.update(globals.time, camera);
+    plankton.update();
+    jellyfish.update();
+    // jellyfish2.update();
+    // jellyfish3.update();
+    // jellyfish4.update();
+    // jellyfish5.update();
 
   };
 
 };
 
-THREE.World.prototype = Object.create( THREE.Object3D.prototype );
+THREE.World.prototype = Object.create( THREE.Scene.prototype );

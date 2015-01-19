@@ -1,33 +1,36 @@
-THREE.SkyBoxShader = function(options) {
+THREE.SkyBoxShader = function(globals) {
 
   THREE.ShaderMaterial.call(this);
 
-  options = options || {};
+  this.globals = globals;
 
   this.uniforms = {
-    "uFogTopCol": { type: "c", value: options.uFogTopCol || new THREE.Color(0.8,0.8,0.8)},
-    "uFogBottomCol": { type: "c", value: options.uFogBottomCol ||new THREE.Color(0.2,0.2,0.2)}
+    "uFogTopCol": { type: "c", value: globals.uFogTopCol || new THREE.Color(0.8,0.8,0.8)},
+    "uFogBottomCol": { type: "c", value: globals.uFogBottomCol ||new THREE.Color(0.2,0.2,0.2)}
   };
 
   this.vertexShader = [
     "uniform vec3 uFogTopCol;",
     "uniform vec3 uFogBottomCol;",
-    "varying vec3 vColor;",
+    "varying vec3 vFogColor;",
     "void main() {",
 
+      // position, eye
       "vec3 vWorld = (modelMatrix * vec4( position, 1.0 )).xyz;",
       "vec3 eye = normalize( vWorld - cameraPosition );",
+      
+      // Fog
       "float dotProduct = dot( eye, vec3(0.,1.,0.) );",
       "dotProduct = ( 2.0 * dotProduct + 1.0) / 2.0;",
-      "vColor = mix(uFogBottomCol, uFogTopCol, dotProduct);",
+      "vFogColor = mix(uFogBottomCol, uFogTopCol, dotProduct);",
       
       "gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );",
     "}"
   ].join("\n");
   this.fragmentShader = [
-    "varying vec3 vColor;",
+    "varying vec3 vFogColor;",
     "void main() {",
-      "gl_FragColor = vec4(vColor, 1.0);",
+      "gl_FragColor = vec4(vFogColor, 1.0);",
     "}"
   ].join("\n");
 
@@ -37,13 +40,15 @@ THREE.SkyBoxShader = function(options) {
 
 THREE.SkyBoxShader.prototype = Object.create(THREE.ShaderMaterial.prototype);
 
-THREE.SkyBox = function(options){
+THREE.SkyBox = function(globals){
 
   THREE.Mesh.call( this );
 
-  this.geometry = new THREE.SphereGeometry( 50, 32, 18 );
+  this.globals = globals;
+
+  this.geometry = new THREE.SphereGeometry( 25, 32, 18 );
   this.geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
-  this.material = new THREE.SkyBoxShader(options);
+  this.material = new THREE.SkyBoxShader(globals);
 
 };
 

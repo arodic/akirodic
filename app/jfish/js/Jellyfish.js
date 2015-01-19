@@ -3,48 +3,67 @@ var caustics = [];
 for (var i = 0; i < 32; i++) {
   var f = i;
   if (f < 10) f = '0'+f;
-  caustics[i] = THREE.ImageUtils.loadTexture('../images/caustics/caustics7.' + f + '.jpg');
+  caustics[i] = THREE.ImageUtils.loadTexture('images/caustics/caustics7.' + f + '.jpg');
   caustics[i].wrapS = THREE.RepeatWrapping;
   caustics[i].wrapT = THREE.RepeatWrapping;
 }
 
-THREE.JellyfishShader = function(options) {
+THREE.JellyfishShader = function(globals) {
 
   THREE.ShaderMaterial.call(this);
 
-  options = options || {};
+  this.globals = globals;
 
   this.attributes = {
     weight: { type: 'v4', value: null }
   };
 
   this.uniforms = {
-    "map": { type: "t", value: THREE.ImageUtils.loadTexture('../images/jellyfish.png') },
+    "uFogTopCol": { type: "c", value: globals.uFogTopCol || new THREE.Color(0.8,0.8,0.8)},
+    "uFogBottomCol": { type: "c", value: globals.uFogBottomCol ||new THREE.Color(0.2,0.2,0.2)},
+    "uFogPower": { type: "f", value: 1},
+
+    "uLightPos": { type: "v4", value: new THREE.Vector4(0,50,0,100)},
+    "uLightCol": { type: "v4", value: new THREE.Vector4(1,1,1,2)},
+
+    "uNear": { type: "f", value: 0},
+    "uFar": { type: "f", value: 1},
+
+    "map": { type: "t", value: THREE.ImageUtils.loadTexture('images/jellyfish.png') },
     "caustics": { type: "t", value: caustics[0]},
-    "uFogTopCol": { type: "c", value: options.uFogTopCol || new THREE.Color(0.8,0.8,0.8)},
-    "uFogBottomCol": { type: "c", value: options.uFogBottomCol ||new THREE.Color(0.2,0.2,0.2)},
     "uTime": { type: "f", value: 0},
-    "uFogDist": { type: "f", value: 1},
     "jTime": { type: "f", value: 0},
+
     "uJoint0": { type: "m4", value: new THREE.Matrix4().identity()},
     "uJoint1": { type: "m4", value: new THREE.Matrix4().identity()},
     "uJoint2": { type: "m4", value: new THREE.Matrix4().identity()},
-    "uJoint3": { type: "m4", value: new THREE.Matrix4().identity()}
+    "uJoint3": { type: "m4", value: new THREE.Matrix4().identity()},
+    "uJoint0InvTranspose": { type: "m4", value: new THREE.Matrix4().identity()},
   };
 
   this.vertexShader = [      
     "attribute vec4 weight;",
+
     "uniform vec3 uFogTopCol;",
     "uniform vec3 uFogBottomCol;",
-    "uniform float uFogDist;",
+
+    "uniform vec4 uLightPos;",
+    "uniform vec4 uLightCol;",
+
     "uniform float jTime;",
     "uniform mat4 uJoint0;",
     "uniform mat4 uJoint1;",
     "uniform mat4 uJoint2;",
     "uniform mat4 uJoint3;",
-    "varying vec3 vColor;",
+    "uniform mat4 uJoint0InvTranspose;",
+
+    "varying vec3 vFogColor;",
     "varying vec3 vWorld;",
+    "varying vec3 vNormal;",
+    "varying vec3 vDiffuse;",
     "varying vec2 vUv;",
+
+
     "void main() {",
 
       "float dpi = 6.2831853;",
@@ -60,15 +79,24 @@ THREE.JellyfishShader = function(options) {
       "vec3(uJoint1 * vec4(pos, 1.0))*weight.y +",
       "vec3(uJoint2 * vec4(pos, 1.0))*weight.z +",
       "vec3(uJoint3 * vec4(pos, 1.0))*weight.w;",
-      // "vec3 normal = normalize(vec3(uJoint0InvTranspose * vec4(normal, 1.0)));",
 
+      "vNormal = normalize(vec3(uJoint0InvTranspose * vec4(normal, 1.0)));",
+
+      // position, eye, depth
       "vWorld = pos;",
-      // vec4 WorldViewProj = uWorldViewProj * vec4(pos, 1.0);
+      "vec4 WorldViewProj = projectionMatrix * modelViewMatrix * vec4( pos, 1.0 );",
       "vec3 eye = normalize( vWorld - cameraPosition );",
-      "float dotProduct = dot( eye, vec3(0.,1.,0.) );",
+      
+      // Fog
+      "float dotProduct = abs(dot( eye, vec3(0.,1.,0.) ));",
       "dotProduct = ( 2.0 * dotProduct + 1.0) / 2.0;",
+      "vFogColor = mix(uFogBottomCol, uFogTopCol, dotProduct);",
 
-      "vColor = mix(uFogBottomCol, uFogTopCol, dotProduct);",
+      // diffuse
+      "vec3 lightDir = normalize(uLightPos.rgb - vWorld.xyz);",
+      "float diffuseProduct = max(dot(vNormal, lightDir), 0.0);",
+      "float lightFalloff = pow(max(1.0-(distance(uLightPos.rgb, vWorld.xyz)/uLightPos.a), 0.0),2.0);",
+      "vDiffuse = uLightCol.rgb * vec3(diffuseProduct * lightFalloff * uLightCol.a);",
 
       "gl_Position = projectionMatrix * modelViewMatrix * vec4( pos, 1.0 );",
 
@@ -76,46 +104,39 @@ THREE.JellyfishShader = function(options) {
 
     "}"
 
-
-        // vec3 eye = normalize(vWorld.xyz - uViewInv[3].xyz);
-        // float depth = (WorldViewProj.z+uNear)/uFar;
-        
-        // //diffuse
-        // vec3 lightDir = normalize(uLightPos - vWorld.xyz);
-        // float diffuseProduct = max(dot(normal, lightDir), 0.0);
-        // float lightFalloff = pow(max(1.0-(distance(uLightPos, vWorld.xyz)/uLightRadius), 0.0),2.0);
-        // vDiffuse = uLightCol.rgb * vec3(diffuseProduct * lightFalloff * uLightCol.a);
-
-        // //specular
-        // vec3 lightReflectDir = reflect(lightDir, normal);
-        // float specularProduct = pow(max(dot(lightReflectDir, eye), 0.0), uLightSpecPower);
-        // vSpecular = uLightSpecCol.rgb * vec3(specularProduct * uLightSpecCol.a);
-
-        // //fresnel
-        // float fresnelProduct = pow(1.0-max(abs(dot(normal, -eye)), 0.0), uFresnelPower);
-        // vFresnel = uFresnelCol.rgb * vec3(uFresnelCol.a * fresnelProduct);
-
-        // ///fog
-        // vFogCol = calcFog(eye, depth, uFogTopCol, uFogBottomCol, uFogDist);
-
-        // //
-        
-        // gl_Position = WorldViewProj;
-
   ].join("\n");
   this.fragmentShader = [
     "uniform float uTime;",
     "uniform sampler2D map;",
     "uniform sampler2D caustics;",
-    "varying vec3 vColor;",
+
+    "uniform float uNear;",
+    "uniform float uFar;",
+    "uniform float uFogPower;",
+
+    "varying vec3 vFogColor;",
     "varying vec3 vWorld;",
+    "varying vec3 vNormal;",
+    "varying vec3 vDiffuse;",
     "varying vec2 vUv;",
     "void main() {",
 
       "vec3 causticsMap = texture2D(caustics, vec2((vWorld.x)/12.+uTime/32., (vWorld.z-vWorld.y)/12.)).rgb;",
-      "vec4 colorMap = vec4(texture2D(map, vUv, -1.0).rgb, 1.0);",
+      "causticsMap.rgb = pow(causticsMap.rgb, vec3(2.2));",
 
-      "gl_FragColor = vec4(causticsMap, 0.0) + colorMap * vec4(vColor, 1.0);",
+      "vec4 colorMap = texture2D(map, vUv, -1.0);",
+      "colorMap = pow(colorMap, vec4(2.2));",
+
+      "float depth = gl_FragCoord.z / gl_FragCoord.w / (uFar - uNear);",
+
+      "vec3 finalColor = colorMap.rgb * (vDiffuse + causticsMap);", // + uAmbientCol TODO
+
+      "finalColor = pow(finalColor, vec3(0.454545));",
+      
+      // "finalColor = mix(finalColor, vFogColor, 1.0 - colorMap.a);", // alpha fog
+      // "finalColor = mix(finalColor, vFogColor, pow(depth, uFogPower));", // distance fog
+      "gl_FragColor =  vec4(finalColor, colorMap.a);",
+      // "gl_FragColor =  vec4(vDiffuse, 1.0);",
 
     "}"
 
@@ -169,21 +190,22 @@ var forceNorm = new THREE.Vector3();
 var accel = new THREE.Vector3();
 var velocity = new THREE.Vector3();
 var tempVec3 = new THREE.Vector3();
+var tempMat4 = new THREE.Matrix4();
 var tempFloat;
 
 THREE.JellyfishShader.prototype = Object.create(THREE.ShaderMaterial.prototype);
 
-THREE.Jellyfish = function(options){
+THREE.Jellyfish = function(globals){
 
   THREE.Object3D.call( this );
 
-  options = options || {};
+  this.globals = globals;
 
   var scope = this;
 
   var xhrLoader = new THREE.XHRLoader();
 
-  xhrLoader.load( '../meshes/cock.json', function(response) {
+  xhrLoader.load( 'meshes/jellyfish3.json', function(response) {
     var data = JSON.parse(response);
 
     var vertexPositions = new Float32Array( data.vertexPositions );
@@ -225,7 +247,7 @@ THREE.Jellyfish = function(options){
     geometry.addAttribute( 'uv', new THREE.BufferAttribute( vertexTextureCoords, 3 ) );
 
 
-    scope.mesh = new THREE.Mesh( geometry, new THREE.JellyfishShader(options) );
+    scope.mesh = new THREE.Mesh( geometry, new THREE.JellyfishShader(globals) );
     scope.add( scope.mesh );
 
     geometry.computeBoundingSphere();
@@ -233,7 +255,7 @@ THREE.Jellyfish = function(options){
 
   });
 
-  this.size = options.size || 1;
+  this.size = globals.size || 1;
 
   this.direction = new THREE.Vector3(0,1,0);
   
@@ -271,6 +293,8 @@ THREE.Jellyfish = function(options){
   this.bone[3].skinMatrix = new THREE.Matrix4();
   this.bone[4].skinMatrix = new THREE.Matrix4();
 
+  this.bone[1].InvTransposeMatrix = new THREE.Matrix4();
+
   this.bone[1].length = 2.3;
   this.bone[2].length = Math.PI;
   this.bone[3].length = Math.PI;
@@ -287,7 +311,7 @@ THREE.Jellyfish = function(options){
   this.add(this.bone[3]);
   this.add(this.bone[4]);
 
-  this.update = function(time, camera) {
+  this.update = function() {
 
     this.target.lookAt(tempVec3.copy(this.target.position).add(this.direction));
 
@@ -301,7 +325,7 @@ THREE.Jellyfish = function(options){
 
     this.direction.normalize();
 
-    var prop = (Math.cos(time+2.3)/2+0.22)*3; // TODO
+    var prop = (Math.cos(this.globals.time+2.3)/2+0.22)*3; // TODO
     this.target.position.add( tempVec3.copy(this.direction).multiplyScalar(0.01*prop) );
 
     for (var i = 1; i < 5; i++) {
@@ -315,19 +339,32 @@ THREE.Jellyfish = function(options){
       this.bone[i].scale.set(this.size,this.size,this.size);
     }
 
-    this.bone[1].up.copy(this.bone[1].position).sub(camera.position).multiplyScalar(-1);
-    this.bone[2].up.copy(this.bone[2].position).sub(camera.position).multiplyScalar(-1);
-    this.bone[3].up.copy(this.bone[3].position).sub(camera.position).multiplyScalar(-1);
-    this.bone[4].up.copy(this.bone[4].position).sub(camera.position).multiplyScalar(-1);
+    this.bone[1].up.copy(this.bone[1].position).sub(this.globals.camera.position).multiplyScalar(-1);
+    this.bone[2].up.copy(this.bone[2].position).sub(this.globals.camera.position).multiplyScalar(-1);
+    this.bone[3].up.copy(this.bone[3].position).sub(this.globals.camera.position).multiplyScalar(-1);
+    this.bone[4].up.copy(this.bone[4].position).sub(this.globals.camera.position).multiplyScalar(-1);
     this.bone[1].lookAt(this.target.position);
     this.bone[2].lookAt(this.bone[1].position);
     this.bone[3].lookAt(this.bone[2].position);
     this.bone[4].lookAt(this.bone[3].position);
 
     if (scope.mesh) {
-      scope.mesh.material.uniforms.caustics.value = caustics[parseInt(time*30 % 33)];
-      scope.mesh.material.uniforms.jTime.value = time;
-      scope.mesh.material.uniforms.uTime.value = time;
+      scope.mesh.material.uniforms.uNear.value = this.globals.camera.near;
+      scope.mesh.material.uniforms.uFar.value = this.globals.camera.far;
+      scope.mesh.material.uniforms.uFogPower.value = this.globals.uFogPower;
+      scope.mesh.material.uniforms.caustics.value = caustics[parseInt(this.globals.time*30 % 33)];
+      scope.mesh.material.uniforms.jTime.value = this.globals.time;
+      scope.mesh.material.uniforms.uTime.value = this.globals.time;
+      
+      scope.mesh.material.uniforms.uLightPos.value = this.globals.uLightPos;
+      scope.mesh.material.uniforms.uLightCol.value = this.globals.uLightCol;
+
+      //TODO: cleanup
+      tempMat4.multiplyMatrices(this.bone[1].matrix, this.bone[1].bindMatrix);
+      this.bone[1].InvTransposeMatrix.getInverse(tempMat4);
+      this.bone[1].InvTransposeMatrix.transpose();
+      scope.mesh.material.uniforms.uJoint0InvTranspose.value = this.bone[1].InvTransposeMatrix;
+
       scope.mesh.material.uniforms.uJoint0.value = this.bone[1].skinMatrix.multiplyMatrices(this.bone[1].matrix, this.bone[1].bindMatrix);
       scope.mesh.material.uniforms.uJoint1.value = this.bone[2].skinMatrix.multiplyMatrices(this.bone[2].matrix, this.bone[2].bindMatrix);
       scope.mesh.material.uniforms.uJoint2.value = this.bone[3].skinMatrix.multiplyMatrices(this.bone[3].matrix, this.bone[3].bindMatrix);

@@ -1,22 +1,27 @@
-THREE.PlanktonShader = function(options) {
+THREE.PlanktonShader = function(globals) {
 
   THREE.ShaderMaterial.call(this);
 
-  options = options || {};
+  this.globals = globals;
 
   this.uniforms = {
-    "map": { type: "t", value: THREE.ImageUtils.loadTexture('../images/plankton.jpg') },
+    "map": { type: "t", value: THREE.ImageUtils.loadTexture('images/plankton.jpg') },
     "caustics": { type: "t", value: caustics[0]},
-    "uFogTopCol": { type: "c", value: options.uFogTopCol || new THREE.Color(0.8,0.8,0.8)},
-    "uFogBottomCol": { type: "c", value: options.uFogBottomCol ||new THREE.Color(0.2,0.2,0.2)},
+    "uFogTopCol": { type: "c", value: globals.uFogTopCol || new THREE.Color(0.8,0.8,0.8)},
+    "uFogBottomCol": { type: "c", value: globals.uFogBottomCol ||new THREE.Color(0.2,0.2,0.2)},
     "uFogDist": { type: "f", value: 1},
+    "uPointSize": { type: "f", value: 100},
+    "uTurb": { type: "v3", value: new THREE.Vector3(0.8,0.8,1.0)},
     "uTime": { type: "f", value: 0}
   };
 
   this.vertexShader = [
+    "uniform float uTime;",
+    "uniform vec3 uTurb;",
     "uniform vec3 uFogTopCol;",
     "uniform vec3 uFogBottomCol;",
     "uniform float uFogDist;",
+    "uniform float uPointSize;",
     "varying vec3 vWorld;",
     // "varying vec3 vColor;",
     "varying vec2 vUv;",
@@ -24,15 +29,20 @@ THREE.PlanktonShader = function(options) {
 
       "vWorld = (modelMatrix * vec4( position, 1.0 )).xyz;",
 
+      "float turbSpeed = uTime * uTurb.x;",
+      "float turbFreq = uTurb.y;",
+      "float turbAmp = uTurb.z;",
+      "vWorld += vec3(sin(position.z * turbFreq + turbSpeed) * turbAmp, sin(position.x * turbFreq + turbSpeed) * turbAmp, sin(position.y * turbFreq + turbSpeed) * turbAmp);",
+
       // "vec3 eye = normalize( vWorld - cameraPosition );",
       // "float dotProduct = dot( eye, vec3(0.,1.,0.) );",
       // "dotProduct = ( 2.0 * dotProduct + 1.0) / 2.0;",
       // "vColor = mix(uFogBottomCol, uFogTopCol, dotProduct);",
 
       "vUv = uv;",
-      "vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );",
+      "vec4 mvPosition = viewMatrix * vec4( vWorld, 1.0 );",
       "gl_Position = projectionMatrix * mvPosition;",
-      "gl_PointSize = 50.0 / length( mvPosition.xyz );",
+      "gl_PointSize = 100. * uPointSize / length( mvPosition.xyz );",
     "}"
   ].join("\n");
   this.fragmentShader = [
@@ -55,7 +65,7 @@ THREE.PlanktonShader = function(options) {
       "vec3 causticsMap = texture2D(caustics, vec2((vWorld.x)/12.+uTime/32., (vWorld.z-vWorld.y)/12.)).rgb;",
 
       "gl_FragColor = vec4(causticsMap, 1.0) * colorMap;",
-      // "gl_FragColor = vec4(vColor, 1.0);",
+      // "gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);",
     "}"
   ].join("\n");
 
@@ -66,15 +76,17 @@ THREE.PlanktonShader = function(options) {
 
 THREE.PlanktonShader.prototype = Object.create(THREE.ShaderMaterial.prototype);
 
-THREE.Plankton = function(){
+THREE.Plankton = function(globals){
 
   THREE.PointCloud.call( this );
+
+  this.globals = globals;
 
   var scope = this;
 
   this.geometry = new THREE.BufferGeometry();
 
-  var count = 1000;
+  var count = 200;
   var positions = new Float32Array( count * 3 );
   var uv = new Float32Array( count * 2 );
 
@@ -90,15 +102,16 @@ THREE.Plankton = function(){
   this.geometry.addAttribute( 'uv', new THREE.BufferAttribute( uv, 2 ) );
   this.geometry.computeBoundingSphere();
 
+  this.sortParticles = false;
 
-  this.sortParticles = true;
+  this.material = new THREE.PlanktonShader(globals);
 
-  this.material = new THREE.PlanktonShader();
-
-  this.update = function(time) {
+  this.update = function() {
     if (scope.material) {
-      scope.material.uniforms.caustics.value = caustics[parseInt(time*30 % 33)];
-      scope.material.uniforms.uTime.value = time;
+      scope.material.uniforms.caustics.value = caustics[parseInt(this.globals.time*30 % 33)];
+      scope.material.uniforms.uTime.value = this.globals.time;
+      scope.material.uniforms.uPointSize.value = this.globals.uPointSize;
+      scope.material.uniforms.uTurb.value = this.globals.uTurb;
     }
   };
 
