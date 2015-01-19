@@ -13,3 +13,6 @@
 [submodule "app/components/show-and-tell"]
 	path = app/components/show-and-tell
 	url = https://github.com/arodic/show-and-tell.git
+[submodule "app/p"]
+	path = app/p
+	url = https://github.com/arodic/p.git
