@@ -4,12 +4,16 @@
   "homepage": "https://github.com/arodic/akirodic",
   "ignore": [],
   "dependencies": {
+    "polymer": "Polymer/polymer#~0.5.2",
+    "webcomponentsjs": "Polymer/webcomponentsjs#~0.5.2"
+  },
+  "_devDependencies": {
+    "prism-js": "addyosmani/prism-js#~0.1.0",
     "flatiron-director": "Polymer/flatiron-director#~0.4.0",
     "div-bundle": "arodic/div-bundle#~0.4.3",
     "io-bundle": "arodic/io-bundle#~0.4.3",
     "three-bundle": "arodic/three-bundle#~0.4.3",
     "show-and-tell": "arodic/show-and-tell#~0.4.3",
-    "prism-js": "addyosmani/prism-js#~0.1.0",
     "context-free-parser": "Polymer/context-free-parser#~0.4.2"
   }
 }

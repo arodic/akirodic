@@ -1,0 +1,647 @@
+
+<link rel="import" href="../components/polymer/polymer.html">
+<link rel="import" href="../app-materials/app-materials.html">
+<link rel="import" href="../components/three-bundle/three-viewport.html">
+<link rel="import" href="../components/three-bundle/three-editor.html">
+<link rel="import" href="../components/show-and-tell/show-and-tell.html">
+<link rel="import" href="../components/prism-js/prism-js.html">
+<link rel="import" href="../components/flatiron-director/flatiron-director.html">
+<link rel="import" href="../components/core-header-panel/core-header-panel.html">
+<link rel="import" href="../components/core-drawer-panel/core-drawer-panel.html">
+
+<link rel="import" href="app-main.html">
+
+<polymer-element name="html5devconf-presentation" fit>
+  <template>
+  <style type="text/css">
+    :host {
+        background: #f3eee8;
+        font-family: RobotoDraft, 'Helvetica Neue', Helvetica, Arial;
+        margin: 0;
+        overflow: hidden;
+        background-image: url('images/background.png');
+        background-size: cover;
+        color: white;
+    }
+    .slide * {
+      color: white;
+      text-decoration: none;
+    }
+    .slide > three-viewport {
+      width: 900px;
+      height: 400px;
+    }
+    .slide > h1 {
+      text-align: center;
+      display: block;
+      font-size: 64px;
+      margin: 8px 128px;
+    }
+    .slide > h2 {
+      text-align: center;
+      display: block;
+      background-color: black;
+      margin: 8px 128px;
+      padding: 0 12px;
+      font-size: 32px;
+    }
+    .slide > h3 {
+      text-align: center;
+      font-weight: normal;
+      display: block;
+      font-size: 32px;
+      margin: 8px 128px;
+    }
+    .slide .logo {
+      display: inline-block;
+      height: 64px;
+    }
+    .slide > a {
+      font-size: 24px;
+    }
+    .large {
+      font-size: 64px;
+    }
+    #menuBar {
+      border-width: 0 0 1px 0 !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+
+    /* collapsables & tabs */
+    div-collapsable,
+    div-tabs {
+      margin: 1px;
+      padding: 2px;
+      border-radius: 3px;
+      background: #999;
+    }
+    div-collapsable::shadow > #header,
+    div-tabs::shadow > #header {
+      color: #fd5;
+      font-size: 15px;
+    }
+    div-collapsable::shadow > #content,
+    div-tabs::shadow > #content {
+      box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -ms-box-sizing: border-box;
+      min-height: 1em;
+      border-radius: 2px;
+      background: #eee;
+      border: 1px solid #444;
+      padding: 0.1em;
+    }
+
+    div-tabs::shadow > #header {
+      padding-top: 2px;
+    }
+    div-tabs::shadow > #header > core-selector > span {
+      display: inline-block;
+      box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -ms-box-sizing: border-box;
+      padding: 2px 5px;
+      position: relative;
+      top: 1px;
+    }
+    div-tabs::shadow > #header > core-selector > span.core-selected {
+      background: #eee;
+      color: #222;
+      border-radius: 4px 4px 0 0;
+      border: 1px solid #444;
+      border-width: 1px 1px 0 1px;
+      font-weight: normal !important;
+    }
+    div-tabs.secondary {
+      display: inline-block;
+      margin: 1px;
+    }
+    div-tabs.secondary::shadow > #header {
+      color: #df5;
+      font-size: 12px;
+    }
+    div-tabs.secondary::shadow > #header > core-selector > span {
+      padding: 2px 4px;
+      margin: 0 2px;
+    }
+
+    /* drawers */
+    div.drawer {
+      background: -webkit-linear-gradient(60deg, #999, #ddd);
+      background: -o-linear-gradient(60deg, #999, #ddd);
+      background: -moz-linear-gradient(60deg, #999, #ddd);
+      background: linear-gradient(60deg, #999, #ddd);
+      overflow-y: auto;
+      font-size: 16px;
+      color: #333;
+    }
+
+
+    /* io-inspector */
+    io-inspector {
+      display: block;
+      margin: 1px;
+      padding: 2px;
+      border-radius: 3px;
+      background: #999;
+      color: #333 !important;
+      /*border: 1px solid #444;*/
+    }
+    io-inspector /deep/ .io-bundle-label {
+      color: rgb(64, 96, 196) !important;
+    }
+    io-inspector::shadow > *:not(io-object) {
+      color: #fd5 !important;
+      font-size: 15px;
+    }
+    io-inspector::shadow > io-object {
+      box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -ms-box-sizing: border-box;
+      min-height: 1em;
+      border-radius: 2px;
+      background: #eee;
+      border: 1px solid #444;
+    }
+    io-inspector /deep/ .io-bundle-constructor {
+      color: rgb(196, 64, 16) !important;
+    }
+  </style>
+  <flatiron-director id="director" route="{{route}}" autoHash></flatiron-director>
+
+  <template if="{{route == '0'}}">
+    <div class="slide" vertical center-justified layout center fit>
+      <h1>Making WebGL tools with Polymer</h1>
+      <h2>Flux Factory Inc. - <a target="_blank"href="https://twitter.com/flux_io">@flux_io</a></h2>
+      <h2>Aki Rodić - <a target="_blank"href="https://twitter.com/@akirodic">@akirodic</a></h2>
+    </div>
+  </template>
+
+  <template if="{{route == '1'}}">
+    <div class="slide" vertical center-justified layout center fit>
+      <h1>Computer&nbsp;Graphics & Web&nbsp;Development</h1>
+      <h2>EA Games / Pixar / LucasArts / Google / Flux</h2>
+    </div>
+  </template>
+
+  <template if="{{route == '2'}}">
+    <div class="slide" vertical center-justified layout center fit>
+      <h1>WebGL / Three.js</h1>
+    </div>
+  </template>
+
+  <template if="{{route == '3'}}">
+    <div class="slide" vertical center-justified layout center fit>
+      <h1>Web Components / Polymer</h1>
+    </div>
+  </template>
+
+  <template if="{{route == '4'}}">
+    <div class="slide" vertical center-justified layout center fit>
+      <h1>Native Tools</h1>
+      <h2>animation / VFX / games / architecture</h2>
+    </div>
+  </template>
+
+  <template if="{{route == '5'}}">
+    <div class="slide" vertical center-justified layout center fit>
+      <h1>How can we make better tools on the web?</h1>
+    </div>
+  </template>
+
+  <template if="{{route == '6'}}">
+    <div class="slide" vertical center-justified layout center fit>
+      <h1><a target="_blank" href="http://Web Tools">Web Tools</a></h1>
+      <a target="_blank" href="http://verold.com">verold.com</a>
+      <a target="_blank" href="http://goocreate.com">goocreate.com</a>
+      <a target="_blank" href="http://clara.io">clara.io</a>
+      <a target="_blank" href="http://threejs.org/editor">threejs.org/editor</a>
+      <a target="_blank" href="http://lagoa.com">lagoa.com</a>
+      <a target="_blank" href="http://flux.io/metro">flux.io/metro</a>
+      <a target="_blank" href="http://360.autodesk.com">360.autodesk.com</a>
+      ...
+    </div>
+  </template>
+
+  <template if="{{route == '7'}}">
+    <div class="slide" vertical center-justified layout center fit>
+      <h1>Building with web components</h1>
+      <h2><a target="_blank" href="https://github.com/arodic/io-bundle">io-bundle</a></h2>
+      <h2><a target="_blank" href="https://github.com/arodic/three-bundle">three-bundle</a></h2>
+    </div>
+  </template>
+
+  <template if="{{route == '8'}}">
+    <div class="slide" vertical center-justified layout center fit>
+      <h1>This is a custom element:</h1>
+      <h2>three-viewport</h2>
+      <show-and-tell></show-and-tell>
+      <three-viewport style="display: none;"></three-viewport>
+    </div>
+  </template>
+
+  <template if="{{route == '9'}}">
+    <div class="slide" vertical center-justified layout center fit>
+      <show-and-tell></show-and-tell>
+      <three-viewport></three-viewport>
+    </div>
+  </template>
+
+  <template if="{{route == '10'}}">
+    <div class="slide" vertical center-justified layout center fit>
+      <prism-js language="markup" escape="true">
+<!-- <app-main scene="{{scene}}"></app-main> -->
+<three-viewport scene="{{scene}}"></three-viewport>
+      </prism-js>
+    </div>
+  </template>
+
+  <template if="{{route == '11'}}">
+    <!-- <app-main scene="{{scene}}"></app-main> -->
+    <div class="slide" vertical center-justified layout center fit>
+      <three-viewport scene="{{scene}}"></three-viewport>
+    </div>
+  </template>
+
+  <template if="{{route == '12'}}">
+    <div class="slide" vertical center-justified layout center fit>
+      <prism-js language="markup" escape="true">
+<!-- <app-main scene="{{scene}}"></app-main> -->
+<three-viewport scene="{{scene}}" camera="persp" gridOrientation="xz"></three-viewport>
+<three-viewport scene="{{scene}}" camera="top" gridOrientation="xz"></three-viewport>
+<three-viewport scene="{{scene}}" camera="front" gridOrientation="xy"></three-viewport>
+<three-viewport scene="{{scene}}" camera="left" gridOrientation="yz"></three-viewport>
+      </prism-js>
+    </div>
+  </template>
+
+  <template if="{{route == '13'}}">
+    <!-- <app-main scene="{{scene}}"></app-main> -->
+    <div main horizontal layout fit>
+      <div flex vertical layout>
+        <three-viewport flex id="viewport0" scene="{{scene}}"
+          camera="persp" gridOrientation="xz">
+        </three-viewport>
+        <three-viewport flex id="viewport1" scene="{{scene}}"
+          camera="top" gridOrientation="xz">
+        </three-viewport>
+      </div>
+      <div flex vertical layout>
+        <three-viewport flex id="viewport2" scene="{{scene}}"
+          camera="front" gridOrientation="xy">
+        </three-viewport>
+        <three-viewport flex id="viewport3" scene="{{scene}}"
+          camera="left" gridOrientation="yz">
+        </three-viewport>
+      </div>
+    </div>
+  </template>
+
+  <template if="{{route == '14'}}">
+    <div class="slide" vertical center-justified layout center fit>
+      <h2>three-outliner</h2>
+      <show-and-tell></show-and-tell>
+      <three-outliner style="width:200px;" scene="{{scene}}"></three-outliner>
+      <!-- <app-main scene="{{scene}}"></app-main> -->
+    </div>
+  </template>
+
+  <template if="{{route == '15'}}">
+    <div class="slide" vertical center-justified layout center fit>
+      <h2>three-outliner-item</h2>
+      <show-and-tell></show-and-tell>
+      <three-outliner-item class="large" object="{{scene.children[1]}}"></three-outliner-item>
+      <!-- <app-main scene="{{scene}}"></app-main> -->
+    </div>
+  </template>
+
+  <template if="{{route == '16'}}">
+    <div class="slide" vertical center-justified layout center fit>
+      <show-and-tell></show-and-tell>
+      <three-outliner style="display: none;" scene="{{scene}}"></three-outliner>
+      <prism-js language="markup" escape="true" inputValue="
+<template repeat='[scene.children]' id='root'>
+  <three-outliner-item object='[]'>
+    <template ref='root' repeat='[children]'></template>
+  </three-outliner-item>
+</template>
+      ">
+      </prism-js>
+      <show-and-tell></show-and-tell>
+      <three-outliner-item style="display: none;" object="{{scene}}"></three-outliner-item>
+      <prism-js language="markup" escape="true" inputValue="
+<io-boolean-icon value='[expanded]'></io-boolean-icon>      
+<io-boolean-icon value='[object.visible]'></io-boolean-icon>
+<three-label model='[object]'></three-label>
+<template if='[expanded]'><content></content></template>
+      ">
+      </prism-js>
+    </div>
+  </template>
+
+  <template if="{{route == '17'}}">
+    <div class="slide" vertical center-justified layout center fit>
+      <prism-js language="markup" escape="true">
+<!-- <app-main scene="{{scene}}"></app-main> -->
+<three-outliner scene="{{scene}}"></three-outliner>
+<three-viewport scene="{{scene}}"></three-viewport>
+      </prism-js>
+    </div>
+  </template>
+
+  <template if="{{route == '18'}}">
+    <!-- <app-main scene="{{scene}}"></app-main> -->
+    <div main horizontal layout fit>
+      <three-outliner style="width:200px; max-height: 100%;" scene="{{scene}}"></three-outliner>
+      <three-viewport flex id="viewport0" scene="{{scene}}"
+        camera="persp" gridOrientation="xz">
+      </three-viewport>
+    </div>
+  </template>
+
+  <template if="{{route == '19'}}">
+    <div class="slide" vertical center-justified layout center fit>
+      <h1>Add Responsiveness</h1>
+      <h2>core-drawer-panel</h2>
+      <prism-js language="markup" escape="true">
+<core-drawer-panel>
+  <div drawer class="drawer">
+    <!-- LEFT DRAWER -->
+  </div>
+  <core-drawer-panel>
+    <div drawer class="drawer">
+      <!-- RIGHT DRAWER -->
+    </div>
+    <div main vertical layout>
+    <!-- MAIN PANEL -->
+    </div>
+  </core-drawer-panel>
+</core-drawer-panel>
+      </prism-js>
+    </div>
+  </template>
+
+  <template if="{{route == '20'}}">
+    <div class="slide" vertical center-justified layout center fit>
+      <h1>Add Responsiveness</h1>
+      <h2>core-drawer-panel</h2>
+      <prism-js language="markup" escape="true">
+<core-drawer-panel>
+  <div drawer class="drawer">
+    <three-outliner scene="{{scene}}"></three-outliner>
+  </div>
+  <core-drawer-panel>
+    <div drawer class="drawer">
+      <three-viewport scene="{{scene}}"></three-viewport>
+    </div>
+    <div main vertical layout>
+    <!-- MAIN PANEL -->
+    </div>
+  </core-drawer-panel>
+</core-drawer-panel>
+      </prism-js>
+    </div>
+  </template>
+
+  <template if="{{route == '21'}}">
+    <core-drawer-panel style="width: 100%; height: 100%;">
+      <!-- <app-main scene="{{scene}}"></app-main> -->
+      <div drawer class="drawer">
+        <three-outliner scene="{{scene}}" style="max-height: 100%;"></three-outliner>
+      </div>
+      <core-drawer-panel main rightDrawer>
+        <div drawer class="drawer">
+        </div>
+        <div main>
+          <three-viewport scene="{{scene}}" fit></three-viewport>
+        </div>
+      </core-drawer-panel>
+    </core-drawer-panel>
+  </template>
+
+  <template if="{{route == '22'}}">
+    <div class="slide" vertical center-justified layout center fit>
+      <show-and-tell></show-and-tell>
+      <io-inspector value="{{scene}}" expanded></io-inspector>
+      <!-- <app-main scene="{{scene}}"></app-main> -->
+    </div>
+  </template>
+
+  <template if="{{route == '23' || route == '25'}}">
+    <core-drawer-panel style="width: 100%; height: 100%;">
+      <!-- <app-main scene="{{scene}}"></app-main> -->
+      <div drawer class="drawer">
+        <div-collapsable label="Scene">
+          <three-outliner id="outliner" scene="{{scene}}"></three-outliner>
+        </div-collapsable>
+      </div>
+      <core-drawer-panel main rightDrawer>
+        <div drawer class="drawer">
+          <io-inspector expanded></io-inspector>
+        </div>
+        <div main>
+          <three-viewport scene="{{scene}}" fit></three-viewport>
+        </div>
+      </core-drawer-panel>
+    </core-drawer-panel>
+  </template>
+
+  <template if="{{route == '24'}}">
+    <div class="slide" vertical center-justified layout center fit>
+      <h1>Events</h1>
+      <prism-js language="javascript" escape="true">
+this.addEventListener('three-label-clicked', function(event){
+  inspector.value = event.detail.model;
+});
+      </prism-js>
+    </div>
+  </template>
+
+  <template if="{{route == '26'}}">
+    <div class="slide" vertical center-justified layout center fit>
+      <h2>io-menu</h2>
+      <show-and-tell></show-and-tell>
+      <io-menu noHide options="{{options}}"></io-menu>
+    </div>
+  </template>
+
+  <template if="{{route == '27'}}">
+    <div class="slide" vertical center-justified layout center fit>
+      <h2>io-menu</h2>
+      <prism-js language="javascript" escape="true">
+menu.options = [
+  {label: 'Object', icon: 'add-circle', options: [
+    {label: 'Group', icon: 'three:group4'},
+    {label: 'Mesh', icon: 'three:geometry-cube', options: [
+      {label: 'Plane', action: PlaneFunction},
+      {label: 'Box', action: BoxFunction},
+      {label: 'Cylinder', action: CylinderFunction},
+      {label: 'Sphere', action: SphereFunction},
+      {label: 'Icosahedron', action: IcosahedronFunction},
+      {label: 'Torus', action: TorusFunction},
+      {label: 'TorusKnot', action: TorusKnotFunction},
+    ]}
+  ]}
+];
+      </prism-js>
+    </div>
+  </template>
+
+  <app-main id="mainapp" scene="{{scene}}"></app-main>
+
+  <template if="{{route == '28'}}">
+    <core-header-panel fit>
+      <io-menu class="core-header" id="menuBar" options="{{options}}" noHide horizontal></io-menu>
+      <core-drawer-panel>
+        <!-- <app-main scene="{{scene}}"></app-main> -->
+        <div drawer class="drawer">
+          <div-collapsable label="Scene">
+            <three-outliner id="outliner" scene="{{scene}}"></three-outliner>
+          </div-collapsable>
+        </div>
+        <core-drawer-panel main rightDrawer>
+          <div drawer class="drawer">
+            <io-inspector expanded></io-inspector>
+          </div>
+          <div main>
+            <three-viewport scene="{{scene}}" fit></three-viewport>
+          </div>
+        </core-drawer-panel>
+      </core-drawer-panel>
+    </core-header-panel>
+  </template>
+
+  <template if="{{route == '29'}}">
+    <div class="slide" vertical center-justified layout center fit>
+      <h3>5 lines of HTML</h3>
+      <prism-js language="markup" escape="true">
+<!-- <app-main scene="{{scene}}"></app-main> -->
+<io-menu noHide horizontal options="{{options}}"></io-menu>
+<three-outliner scene="{{scene}}"></three-outliner>
+<three-viewport scene="{{scene}}"></three-viewport>
+<io-inspector scene="{{scene}}"></io-inspector>
+      </prism-js>
+    </div>
+  </template>
+
+  <template if="{{route == '30'}}">
+    <div class="slide" vertical center-justified layout center fit>
+      <h1>Lessons Learned</h1>
+      <h2>Design for general purpose</h2>
+      <h2>Avoid core-signals</h2>
+      <h2>Always refactor</h2>
+    </div>
+  </template>
+
+  <template if="{{route == '31'}}">
+    <div class="slide" vertical center-justified layout center fit>
+      <h1>Thank you!</h1>
+      <h2>Flux Factory Inc. - <a target="_blank"href="https://twitter.com/flux_io">@flux_io</a></h2>
+      <h3>Join us!</h3>
+      <h3>flux.io/join_us</h3>
+      <h2>Aki Rodić - <a target="_blank"href="https://twitter.com/@akirodic">@akirodic</a></h2>
+      <h3>Links to the slides will be tweeted promptly</h3>
+    </div>
+  </template>
+
+  </template>
+  <script>
+  (function() {
+
+    var timeout;
+
+    Polymer({
+      ready: function() {
+
+        var director = this.$.director;
+        if (director.route == '') director.route = 0;
+
+        function next() {
+          director.route = (parseFloat(director.route) + 1);
+          clearTimeout(timeout);
+        }
+
+        function prev() {
+          director.route = (parseFloat(director.route) - 1);
+          director.route = Math.max(director.route, 0);
+          clearTimeout(timeout);
+        }
+
+        document.addEventListener('click', function(e) {
+          if (window.innerWidth - e.clientX < 100 && window.innerHeight - e.clientY < 100) {
+            next()
+          }
+          if (e.clientX < 100 && window.innerHeight - e.clientY < 100) {
+            prev()
+          }
+        });
+
+        document.addEventListener('keyup', function(e) {
+          if (e.which == 39) next();
+          else if (e.which == 37) prev();
+        });
+
+        this.addEventListener('three-label-clicked', function(event) {
+          var inspector = document.querySelector('html /deep/ io-inspector');
+          inspector.value = event.detail.model;
+        });
+        this.addEventListener('io-changed', function(event) {
+          var viewport = this.querySelector('html /deep/ three-viewport');
+          viewport.renderLater();
+        });
+
+        this.options = [
+          {label: 'File', icon: 'folder-open', options: [
+            {label: 'Export', icon: 'file-download'} 
+          ]},
+          {label: 'Edit', icon: 'create', options: [
+            {label: 'Clone', icon: 'content-copy'},
+            {label: 'Delete', icon: 'delete'}
+          ]},
+          {label: 'Object', icon: 'add-circle', options: [
+            {label: 'Group', icon: 'three:group4'},
+            {label: 'Mesh', icon: 'three:geometry-cube', options: [
+              {label: 'Plane'},
+              {label: 'Box'},
+              {label: 'Cylinder'},
+              {label: 'Sphere'},
+              {label: 'Icosahedron'},
+              {label: 'Torus'},
+              {label: 'TorusKnot'},
+            ]},
+            {label: 'Light', icon: 'three:point-light', options: [
+              {label: 'Point'},
+              {label: 'Spot'},
+              {label: 'Directional'},
+              {label: 'Hemisphere'},
+              {label: 'Ambient'},
+            ]},
+            {label: 'Material', icon: 'image:palette', options: [
+              {label: 'Dashed'},
+              {label: 'Basic'},
+              {label: 'Depth'},
+              {label: 'Face'},
+              {label: 'Lambert'},
+              {label: 'Normal'},
+              {label: 'Phong'},
+              {label: 'Shader'}
+            ]},
+            {label: 'Camera', icon: 'three:camera', options: [
+              {label: 'PerspectiveCamera'},
+              {label: 'OrthographicCamera'},
+              {label: 'CubeCamera'},
+            ]},
+          ]},
+          {label: 'Settings', icon: 'settings', options: [
+            {label: 'Components', icon: 'settings-input-component'}
+          ]},
+        ];
+      }
+    });
+  })();
+  </script>
+</polymer-element>
