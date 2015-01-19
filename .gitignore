@@ -1,11 +1,6 @@
 **/.bower.json
-app/components/core*
-app/components/polymer
-app/components/platform
-app/components/three.js
-app/components/flatiron-director
-app/components/prismjs/
-app/components/prism-js/
-app/components/he/
-app/components/context-free-parser/
-app/html5devconf2014/components/
+app/components
+!app/components/io-bundle
+!app/components/three-bundle
+!app/components/div-bundle
+!app/components/show-and-tell
