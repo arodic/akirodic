@@ -1,1 +1,3 @@
-app/components
+app/io
+!app/io/bower.json
+!app/io/.bowerrc
