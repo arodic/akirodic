@@ -1,18 +1,6 @@
 [submodule "tailbone"]
 	path = tailbone
 	url = https://github.com/dataarts/tailbone.git
-[submodule "app/components/io-bundle"]
-	path = app/components/io-bundle
-	url = https://github.com/arodic/io-bundle.git
-[submodule "app/components/div-bundle"]
-	path = app/components/div-bundle
-	url = https://github.com/arodic/div-bundle.git
-[submodule "app/components/three-bundle"]
-	path = app/components/three-bundle
-	url = https://github.com/arodic/three-bundle.git
-[submodule "app/components/show-and-tell"]
-	path = app/components/show-and-tell
-	url = https://github.com/arodic/show-and-tell.git
 [submodule "app/p"]
 	path = app/p
 	url = https://github.com/arodic/p.git

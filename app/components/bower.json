@@ -1,15 +1,23 @@
 {
-  "name": "components",
+  "name": "flatland",
   "version": "0.0.0",
-  "homepage": "https://github.com/arodic/akirodic",
-  "ignore": [],
+  "homepage": "https://github.com/arodic/flatland",
+  "authors": [
+    "Aki Rodic <aleksandar.xyz@gmail.com>",
+    "Jono Brandel <jonobrandel@gmail.com>",
+    "Chris Lauritzen <chrislauritzen@gmail.com>"
+  ],
+  "license": "All rights reserved © 2014 Epilogue Press",
+  "ignore": [
+    "**/.*",
+    "modules",
+    "components"
+  ],
   "dependencies": {
-    "flatiron-director": "Polymer/flatiron-director#~0.4.0",
-    "div-bundle": "arodic/div-bundle#~0.4.3",
-    "io-bundle": "arodic/io-bundle#~0.4.3",
-    "three-editor": "arodic/three-bundle#~0.4.3",
-    "three-editor": "arodic/show-and-tell#~0.4.3",
-    "prism-js": "addyosmani/prism-js#~0.1.0",
-    "context-free-parser": "Polymer/context-free-parser#~0.4.2"
+    "polymer": "Polymer/polymer#~0.5.2",
+    "io-main": "arodic/io-viewport#~0.5.0",
+    "io-viewport": "arodic/io-viewport#~0.1.1",
+    "io-bundle": "arodic/io-bundle#~0.6.2",
+    "io-menu": "arodic/io-menu#~0.1.1"
   }
 }

@@ -1,6 +1,1 @@
-**/.bower.json
 app/components
-!app/components/io-bundle
-!app/components/three-bundle
-!app/components/div-bundle
-!app/components/show-and-tell
