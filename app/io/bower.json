@@ -17,6 +17,7 @@
   },
   "resolutions": {
     "io-menu": "master",
-    "io-value": "master"
+    "io-value": "master",
+    "webcomponentsjs": "^0.6.0"
   }
 }
