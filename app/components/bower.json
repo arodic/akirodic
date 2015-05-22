@@ -15,7 +15,13 @@
     "tests"
   ],
   "dependencies": {
-    "io-menu": "~0.2.4",
-    "io-options": "~0.8.6"
+    "io-menu": "~0.4.0",
+    "io-options": "~0.9.1",
+    "three-js": "#master"
+  },
+  "resolutions": {
+    "io-value": "~0.9.0",
+    "io-menu": "~0.4.0",
+    "three-js": "~0.3.0"
   }
 }
