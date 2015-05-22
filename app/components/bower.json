@@ -1,0 +1,21 @@
+{
+  "name": "components",
+  "version": "0.0.0",
+  "homepage": "https://github.com/arodic/akirodic",
+  "authors": [
+    "Aki <aki@flux.io>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "./componentsDev",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "io-menu": "~0.2.4",
+    "io-options": "~0.8.6"
+  }
+}
