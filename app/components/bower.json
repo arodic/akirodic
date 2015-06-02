@@ -7,21 +7,10 @@
   ],
   "license": "MIT",
   "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "./componentsDev",
-    "test",
-    "tests"
+    "**/.*"
   ],
   "dependencies": {
-    "io-menu": "~0.4.0",
-    "io-options": "~0.9.1",
-    "three-js": "#master"
-  },
-  "resolutions": {
-    "io-value": "~0.9.0",
-    "io-menu": "~0.4.0",
-    "three-js": "~0.3.0"
+    "three-editor": "arodic/three-editor#~0.5.1",
+    "io-inspector": "arodic/io-inspector#~0.9.7"
   }
 }
