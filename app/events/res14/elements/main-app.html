@@ -1,0 +1,16 @@
+<script src="../lib/three.js"></script>
+<script src="../js/gpxLoader.js"></script>
+
+<link rel="import" href="../lib/three-outliner/three-outliner.html">
+<link rel="import" href="../lib/three-attribute-editor/three-attribute-editor.html">
+<link rel="import" href="../lib/three-viewport-controls/three-viewport-controls.html">
+
+<polymer-element name="main-app">
+  <link rel="stylesheet" href="main-app.css" />
+  <template>
+    <three-outliner id="outliner" scene="{{scene}}"></three-outliner>
+    <three-attribute-editor id="attributes"></three-attribute-editor>
+    <three-viewport-controls id="controls" scene="{{scene}}" camera="{{camera}}" domElement="{{renderer.domElement}}"></three-viewport-controls>
+  </template>
+  <script src="main-app.js"></script>
+</polymer-element>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Resonate 2014</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      overflow: hidden;
+      font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    }
+    #attribute {
+      right: 0;
+    }
+  </style>
+</head>
+<body>
+<script src="lib/three.js"></script>
+<script src="lib/platform.js"></script>
+<script src="lib/polymer.js"></script>
+
+<link rel="import" href="lib/three-outliner/three-outliner.html">
+<link rel="import" href="lib/three-attribute-editor/three-attribute-editor.html">
+<link rel="import" href="lib/three-viewport-controls/three-viewport-controls.html">
+
+<link rel="import" href="elements/main-app.html">
+
+<three-outliner id="outliner"></three-outliner>
+<three-attribute-editor id="attribute"></three-attribute-editor>
+<three-viewport-controls id="controls"></three-viewport-controls>
+
+
+<script type="text/javascript">
+  
+  var renderer = new THREE.WebGLRenderer({devicePixelRatio: 1});  
+  var camera = new THREE.PerspectiveCamera(35, 1, 0.1, 1000);  
+  var scene = new THREE.Scene();
+
+  scene.add(camera);
+
+  camera.position.z = 10;
+
+  window.addEventListener('polymer-ready', function(){
+    
+    var outliner = document.querySelector('#outliner');
+    outliner.scene = scene;
+
+    var attribute = document.querySelector('#attribute');
+    attribute.model = sphereMesh;
+
+    var controls = document.querySelector('#controls');
+    controls.scene = scene;
+    controls.camera = camera;
+    controls.domElement = renderer.domElement;
+
+  });
+
+
+  var sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
+  var sphereMaterial = new THREE.MeshBasicMaterial();
+  var sphereMesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
+
+  scene.add(sphereMesh);
+
+  document.body.appendChild(renderer.domElement);
+
+  var resize = function() {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = (window.innerWidth / window.innerHeight);
+    camera.updateProjectionMatrix();
+  };
+
+  resize();
+
+  var render = function() {
+    setTimeout(function(){
+      requestAnimationFrame(render);
+      renderer.render(scene, camera);
+    },100);
+  };
+
+  render();
+
+  window.addEventListener('resize', resize);
+
+
+</script>
+</body>
+</html>

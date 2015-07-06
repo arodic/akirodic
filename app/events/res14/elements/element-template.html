@@ -1,0 +1,26 @@
+<polymer-element name="element-template">
+  <template>
+    <style>
+      :host {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+        background: silver;
+      }
+    </style>
+
+    one:<content select=".one"></content><br/>
+    two:<content select=".two"></content>
+    
+  </template>
+  <script>
+  Polymer('element-template', {
+    ready: function() {
+      console.log( 'ready' )
+    }
+  });
+  </script>
+</polymer-element>
