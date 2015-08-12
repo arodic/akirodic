@@ -10,11 +10,24 @@
     "**/.*"
   ],
   "dependencies": {
-    "io-help": "arodic/io-help#1.0.0",
-    "io-inspector": "arodic/io-inspector#1.0.0",
-    "io-menu": "arodic/io-menu#1.0.0",
-    "io-options": "arodic/io-options#1.0.0",
-    "io-tooltip": "arodic/io-tooltip#1.0.0",
-    "io-value": "arodic/io-value#1.0.0"
+    "io-boolean": "arodic/io-boolean#master",
+    "io-help": "arodic/io-help#master",
+    "io-input": "arodic/io-input#master",
+    "io-inspector": "arodic/io-inspector#master",
+    "io-menu": "arodic/io-menu#master",
+    "io-object": "arodic/io-object#master",
+    "io-object-to-array": "arodic/io-object-to-array#master",
+    "io-options": "arodic/io-options#master",
+    "io-tooltip": "arodic/io-tooltip#master",
+    "io-value": "arodic/io-value#master",
+    "three-js": "arodic/three-js#master",
+    "three-quad-viewport": "arodic/three-quad-viewport#master",
+    "three-renderer": "arodic/three-renderer#master",
+    "three-viewport": "arodic/three-viewport#master"
+  },
+  "resolutions": {
+    "io-value": "master",
+    "io-boolean": "master",
+    "io-input": "master"
   }
 }
