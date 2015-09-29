@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" itemscope itemtype="http://schema.org/Person">
 <head>
-  <title>Aleksandar Rodic</title>
+  <title>Aki Rodic</title>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
-  <meta name="description" content="Aleksandar Rodic is a creative coder working at Google Creative Lab"/>
+  <meta name="description" content="Aleksandar Aki Rodic is a creative coder working at Google Creative Lab"/>
 
-  <meta itemprop="name" content="Aleksandar Rodic">
-  <meta itemprop="description" content="Aleksandar Rodic is a creative technologist pushing the boundaries of web technology.">
+  <meta itemprop="name" content="Aleksandar Aki Rodic">
+  <meta itemprop="description" content="Aleksandar Aki Rodic is a creative technologist pushing the boundaries of web technology.">
   <meta itemprop="image" content="./images/screenshot.jpg">
 
   <link rel="image_src" href="./images/screenshot.jpg" />
@@ -18,293 +18,106 @@
 
 </head>
 <body>
-<script src="./js/lib/three.min.js"></script>
-<script src="./js/lib/tween.min.js"></script>
-<script src="./js/lib/CSS3DRenderer.js"></script>
-<script src="./js/lib/ColladaLoader.js"></script>
-<script src="./js/lib/Detector.js"></script>
+  <script src="./js/lib/three.min.js"></script>
+  <script src="./js/lib/tween.min.js"></script>
+  <script src="./js/lib/CSS3DRenderer.js"></script>
+  <script src="./js/lib/ColladaLoader.js"></script>
+  <script src="./js/lib/Detector.js"></script>
 
-<script src="./js/app.js"></script>
-<script src="./js/detector.js"></script>
-<script src="./js/navigation.js"></script>
-<script src="./js/scene.js"></script>
-<script src="./js/camera.js"></script>
-<script src="./js/touches.js"></script>
-<script src="./js/controls.js"></script>
-<script src="./js/animations.js"></script>
-<script src="./js/fullscreen.js"></script>
-<script src="./js/tracking.js"></script>
-<script type="x-shader/x-vertex" id="vertexShader">
-  varying vec2 vUv;
-  void main() {
-  vUv = uv;
-  gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-  }
-</script>
-<script type="x-shader/x-fragment" id="fragmentShader">
-  uniform float phase;
-  varying vec2 vUv;
-  void main() {
-  float alpha = pow(1.0-abs(vUv.y-phase),10.0)*3.0+0.05;
-  gl_FragColor = vec4(0.05,0.15,0.1,alpha);
-  }
-</script>
-<div id="container">
-  <span id="fullScreen">Fullscreen</span>
-  <span id="three"><a href="http://threejs.org" target="_blank">Made with three.js</a></span>
-  <span id="log"></span>
-</div>
-<div id="about" class='page'>
-  <a href="#" class="close">[X]</a>
-  <article>
-    <p>My name is Aleksandar Rodić but most people know me by Aki. I am a technical artist, creative coder or something along those lines.</p>
-    <p>I worked for Electronic Arts, Pixar, LucasArts and I currently work at Google Creative Lab.</p>
-    <p>My biggest passion is bringing high quality 3D graphics to the web and creating tools for all sorts of creative applications.</p>
-  </article>
-</div>
-<div id="contact" class='page'>
-  <a href="#" class="close">[X]</a>
-  <ul>
-    <li>
-      <a href="mailto:aleksandar.xyz@gmail.com" onclick="tracking('contact','email');" target="_blank">
-        <i class="icon-envelope icon-1x"></i>Write
-      </a>
-    </li>
-    <li>
-      <a href="https://twitter.com/akirodic" onclick="tracking('contact','twitter');" target="_blank">
-        <i class="icon-twitter icon-1x"></i>Follow
-      </a>
-    </li>
-    <li>
-      <a href="https://plus.google.com/110597683886277984552/posts" onclick="tracking('contact','gplus');" target="_blank">
-        <i class="icon-google-plus icon-1x"></i>Add
-      </a>
-    </li>
-    <li>
-      <a href="http://www.linkedin.com/in/aleksandarrodic" onclick="tracking('contact','linkedin');" target="_blank">
-        <i class="icon-linkedin icon-1x"></i>Work
-      </a>
-    </li>
-    <li>
-      <a href="https://github.com/arodic" onclick="tracking('contact','github');" target="_blank"><i class="icon-github-alt icon-1x"></i>Code
-      </a>
-    </li>
-  </ul>
-</div>
-<div id="blog" class='page'>
-  <a href="#" class="close">[X]</a>
-  <div class="blog-index">
-
+  <script src="./js/app.js"></script>
+  <script src="./js/detector.js"></script>
+  <script src="./js/scene.js"></script>
+  <script src="./js/camera.js"></script>
+  <script src="./js/touches.js"></script>
+  <script src="./js/controls.js"></script>
+  <div id="container">
+    <span id="disabled">Under construction</span>
+  </div>
+  <div id="about" class='page'>
+    <a href="#" class="close">[X]</a>
     <article>
-      <header>
-      <h1 class="entry-title"><a href="">Daily Routines</a></h1>
-        <p class="meta">
-          <time datetime="2013-05-27T21:00:00-08:00" pubdate="" data-updated="true">May 27<span>th</span>, 2013</time> | <a href="">0 Comments</a></p>
-      </header>
-      <div class="entry-content"><h2>When cheap and portable GPS devices became available few years ago, I had an idea to start tracking myself everywhere I go and make a data visualization experiment with that data after few years.</h2>
-
-      <p><img src="./images/thumbs/sf.png" style="width: 310px; height:auto; float:left; margin-right: 15px;" />1099 days have passed since I started collecting the data. In the meantime, I learned about WebGL which made this a fun and easy project. I was hoping this data visualization will reveal interesting patterns in my movement governed by my daily routines, personal motivations and the environment itself. And so it did. You can check out the visualization <a href="http://aleksandarrodic.com/p/daily-routines/" target="blank" >here</a></p>
-
-      <p>The fist question people ask me about this project is how I collected the data. It is quite simple actually. I have been using <a href="https://play.google.com/store/apps/details?id=com.codesector.maverick.lite&hl=en" target="_blank" >Maverick App</a> on my Nexus One/4/7 for years. It tracks the data in the background and stores it in standard GPX file format. It is not perfect, and it definitely cuts the battery life, but from all the apps I've tried it requires the least intervention on my part. There are many alternatives on the app market and if you want, you can use a dedicated device for tracking such as <a href="https://buy.garmin.com/en-US/US/into-sports/running/forerunner-910xt/prod90671.html" target="_blank">Garmin GPS watch</a></p>
-
-      <p>One of the biggest technical challenges was to render this huge data set in real time so I can interactively change the parameters to explore different dimensions and segments of the data. Fortunately, the computers are very powerful nowadays and with the help of some WebGL shader trickery it wasn't a huge problem.</p>
-
-      <p>Another challenge was to get rid of the "dirty" data. As you probably know, GPS reception can be very bad in closed spaces. Moreover, if your device relies on WiFi signals to approximate it's position, you can get very inaccurate data. Consequently, I ended up having some noisy lines, especially around my house and other indoor spaces. I was able to get rid of most of this data by filtering out points based on speed and distance threshold.</p>
-
-      <p>Because of unreasonable <a href="http://www.fta.dot.gov/" target="_blank">FTA</a> regulations, I was not able to keep my phone turned on during flights. However, it is possible to approximate flights by detecting large gaps in existing data. This part of my application needs a lot of improvement but I'm happy with the results I have so far.</p>
-
-      <p>That is it for now. I plan to keep collecting the data and revisit this project in couple of years. If you have any questions, comments or you want to learn how to make this for yourself, <a href="#contact">you know where to find me</a> ;)</p>
-
-      </div>
-    </article>
-
-    <article>
-      <header>
-      <h1 class="entry-title"><a href="">My Site Has a New Look</a></h1>
-        <p class="meta">
-          <time datetime="2013-03-21T21:00:00-08:00" pubdate="" data-updated="true">Mar 11<span>th</span>, 2013</time> | <a href="">0 Comments</a></p>
-      </header>
-      <div class="entry-content"><h2>I ditched Octopress and completely redesigned my website.</h2>
-        <p>I've been thinking about doing something like this for quite some time and I finally got an excuse to do it.</p>
-        <p>Believe it or not, I am still in college, working on my masters degree. Not that I really need it but it doesn't hurt to have one.
-          For example, if one day I decide I want to teach, I will need a masters degree at least. Moreover, immigration procedures are much easier if you hold a paper in your hand.
-          So I'm going forward with this and if everything goes according to plan, I will earn my MA in Interactive Design and Game Development at <a href="http://scad.edu" target="_blank">SCAD</a> by the end of this year.</p>
-        <p>This quarter I was in an online web development course (the irony). We were supposed to make a website using Adobe Flash. But since Flash and me separated few years ago (it wasn't Flash, it was me) I wanted to try out something new.</p>
-        <p>I wanted to attempt to integrate a 3D scene with 2D HTML content. I haven't seen many examples of people doing this and most of them try to force the 2D content into becoming 3D.
-          This usually leads to distorted 3D planes flying around which is interesting but not ideal for content consumption. With that in mind, I decided to present all pages flat, facing the camera.</p>
-        <p>The second challenge was designing the 3D scene. I wanted it to be simple for both technical and aesthetic reasons. After a short sketching phase I modeled the scene in Maya and did some basic lighting using Mental Ray and voilà!</p>
-        <p>And last but not least, there were many technical challenges. Fortunately, <a href="http://three.js.org" target="_blank">Three.js</a> library makes this job much easier. Most problems I ran into were related to CSS 3D transformations.
-          If you wonder my all my pages have scroll bars, it is because if they don't, Chrome decides to hide them if you get the camera too close.
-          I hope to make a more isolated test case and submit this as a bug but I've heard other people had this issue too so I wouldn't be surprised if they fix it soon.
-          Anyway, I hope you like scroll bars.</p>
-      </div>
-    </article>
-    <article>
-      <header>
-      <h1 class="entry-title"><a href="">Return to San Francisco</a></h1>
-
-        <p class="meta">
-          <time datetime="2013-01-13T15:47:00-08:00" pubdate="" data-updated="true">Jan 13<span>th</span>, 2013</time> | <a href="">0 Comments</a></p>
-      </header>
-      <div class="entry-content"><h2>From now on I work at the Data Arts Team in Google Creative Lab.</h2>
-
-        <p>After a 6-week visit to my home city <a href="http://en.wikipedia.org/wiki/Belgrade" target="_blank">Belgrade</a>, I returned
-          to my new home in San Francisco. I wish I could have spent more time with my friends and family but at the
-          same time, it feels so good to be back. I’m really excited about my new job and the life ahead.</p>
-
-        <p>At this moment, I don’t know exactly what I’ll be doing at Google but it will most likely involve use of the
-          latest web APIs for all sorts of <a href="http://workshop.chromeexperiments.com/" target="_blank">creative
-            experiments</a>.
-          After a year in the game industry, I have to admit I feel like Im falling behind the web tech but fortunately,
-          I have amazing coworkers to learn from. The first thing on my list is the <a href="http://angularjs.org/#/" target="_blank">angular.js
-            framework</a></p></div>
-    </article>
-    <article>
-      <header>
-        <h1 class="entry-title"><a href="">Always in Motion the Future Is</a></h1>
-        <p class="meta">
-          <time datetime="2012-11-01T11:20:00-07:00" pubdate="" data-updated="true">Nov 1<span>st</span>, 2012</time> | <a href="">0 Comments</a></p>
-      </header>
-      <div class="entry-content"><h2>Tomorrow is my last day at <a href="http://www.lucasarts.com/" target="_blank">LucasArts</a>.
-      </h2>
-        <p>It has been more than a year since I joined the force and it was a great journey! I had the privilege to work
-          with some of the most talented artists in the industry and take part in making of the upcoming game
-          <a href="http://www.lucasarts.com/games/1313/" target="_blank">Star Wars 1313</a>. Working at LucasArts made
-          my childhood dreams come true to say the least!</p>
-        <p>Most of my friends know that I’ve been switching career paths between animation, visual effects, web, games
-          and all sorts of creative coding fields. You would think that by now I should figure out what I want to do.
-          But the truth is… I’ve been doing it all this time! I was incredibly lucky to have the opportunity to choose
-          and be chosen so many times. I can say I am happy with every career decision I ever made. I learned so much,
-          broadened my perspective and met a bunch of really, really good people. Now, it is time to move on.</p>
-        <p>In January 2013, I will start working for Google Creative Lab in San Francisco! I’m happy to say that I
-          already know the team and I’m excited to work with them again! We will make all sorts of <a href="http://www.chromeexperiments.com/" target="_blank">Chrome Experiments</a> to help the web become
-          a platform for the Future. I am stoked to become part of Google culture and work on something that has a
-          potential democratize the software industry and promote collaboration on a global scale. I will write more
-          about it in the upcoming posts.</p>
-        <p>And last but not least, I want to mention some of the amazing people I had the opportunity to work with at
-          LucasArts:
-          <a href="https://vimeo.com/user6597765" target="_blank">Anupam Das</a> -
-          <a href="http://www.drawnbybrady.com/" target="_blank">Brady Parell</a> -
-          <a href="http://brianrecktenwald.blogspot.com/" target="_blank">Brian Recktenwald</a> -
-          <a href="http://www.linkedin.com/pub/james-lipscomb/b/733/903" target="_blank">Chip Lipscomb</a> -
-          <a href="http://www.linkedin.com/pub/cliff-ramshaw/2/399/417" target="_blank">Cliff Ramshaw</a> -
-          <a href="http://www.danroarty.com/" target="_blank">Dan Roarty</a> -
-          <a href="http://thepolysmith.com/" target="_blank">Dave Smith</a> -
-          <a href="http://www.linkedin.com/in/davidkury" target="_blank">David Kury</a> -
-          <a href="http://www.linkedin.com/pub/dominic-robilliard/0/b90/283" target="_blank">Dominic Robilliard</a> -
-          <a href="http://www.linkedin.com/pub/eric-hartz/2/b60/69" target="_blank">Eric Hartz</a> -
-          <a href="http://www.jacobobarreiro.com/jweb/" target="_blank">Jacobo Barreiro</a> -
-          <a href="http://www.linkedin.com/pub/jason-rosson/1/333/982" target="_blank">Jason Rosson</a> -
-          <a href="http://www.jasonrmsmith.com/" target="_blank">Jason Smith</a> -
-          <a href="http://www.linkedin.com/pub/jem-geylani/1/330/671" target="_blank">Jem Geylani</a> -
-          <a href="http://4dpencil.net/gallery/" target="_blank">Jerome Lim</a> -
-          <a href="http://www.linkedin.com/pub/jerome-platteaux/2/259/7a" target="_blank">Jerome Platteaux</a> -
-          <a href="http://www.linkedin.com/in/jtilden" target="_blank">Jonathan Tilden</a> -
-          <a href="http://www.linkedin.com/in/focused3d" target="_blank">Jon Robins</a> -
-          <a href="http://www.linkedin.com/pub/kim-libreri/6/a71/790" target="_blank">Kim Libreri</a> -
-          <a href="http://www.linkedin.com/profile/view?id=2228741" target="_blank">Lutz Latta</a> -
-          <a href="http://marcusng.com/" target="_blank">Marcus Ng</a> -
-          <a href="http://www.linkedin.com/pub/matt-furniss/2/649/74b" target="_blank">Matt Furniss</a> -
-          <a href="http://mattburdette.com/" target="_blank">Matt Brudette</a> -
-          <a href="http://www.linkedin.com/in/mattkoehlerart" target="_blank">Matt Koehler</a> -
-          <a href="http://www.linkedin.com/pub/mark-bergo/1/834/895" target="_blank">Mark Bergo</a> -
-          <a href="http://www.linkedin.com/pub/michael-koperwas/0/403/61b" target="_blank">Michael Koperwas</a> -
-          <a href="http://nigelang.com/" target="_blank">Nigel Ang</a> -
-          <a href="http://www.linkedin.com/pub/nikki-smith/21/b95/747" target="_blank">Nikki Smith</a> -
-          <a href="http://www.linkedin.com/pub/paul-moya/3/b65/1" target="_blank">Paul Moya</a> -
-          <a href="http://www.linkedin.com/pub/peter-nicolai/1/3a9/848" target="_blank">Peter Nicolai</a> -
-          <a href="http://www.poljeremias.com/" target="_blank">Pol Jeremias-Vila</a> -
-          <a href="http://www.linkedin.com/profile/view?id=4435772" target="_blank">Polly Ing</a> -
-          <a href="http://www.linkedin.com/in/rogercordes" target="_blank">Roger Cordes</a> -
-          <a href="http://www.steveleeinc.com/" target="_blank">Steve Lee</a> -
-          <a href="http://www.tombanker.com/" target="_blank">Tom Banker</a> -
-          <a href="http://www.linkedin.com/in/crazyoon" target="_blank">Yoon Kim</a></p>
-        <p><em>Always in motion the Future is.<br>Sometimes, let a Jedi know what may likely happen, the Force can.<br>But
-          show what definitely will happen, the Force cannot.<br>Perhaps take comfort in that I can.</em><br>~ Master
-          Yoda</p></div>
-    </article>
-    <article>
-      <header><h1 class="entry-title"><a href="">5022 Miles to Go</a></h1>
-        <p class="meta">
-          <time datetime="2012-09-21T07:20:00-07:00" pubdate="" data-updated="true">Sep 21<span>st</span>, 2012</time> | <a href="">0 Comments</a></p>
-      </header>
-      <div class="entry-content"><p>It has been almost a year since I started planning for this trip with my brother.
-        Starting from South Carolina we will travel across the country visiting major cities and national parks. It will
-        be an epic journey and it is starting today. No computer will accompany me on this trip but Im bringing a
-        plethora of other digital equipment so expect lots of photos when I come back to San Francisco.</p>
-      </div>
-      <!--<iframe width="690" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.google.co.uk/maps/ms?msa=0&amp;msid=215731993171702497539.0004c39fd962862e78365&amp;hl=en&amp;ie=UTF8&amp;t=m&amp;ll=41.244772,-98.173828&amp;spn=23.090848,60.644531&amp;z=4&amp;output=embed"></iframe>-->
-    </article>
-    <article>
-      <header><h1 class="entry-title"><a href="">Settling the Hub</a></h1>
-        <p class="meta">
-          <time datetime="2012-09-15T18:54:00-07:00" pubdate="" data-updated="true">Sep 15<span>th</span>, 2012</time> | <a href="">0 Comments</a></p>
-      </header>
-      <div class="entry-content">
-        <p>I have been thinking about rebooting my website for a long time. So here it is!
-        Fresh and transformed. I took out the garbage, transplanted some of the old projects and I’m starting over.</p>
-        <p>Some of the biggest changes are:</p>
-        <ul>
-          <li>Format is changed to a blog. So far I haven’t been much of a blogger but hey… people change :)</li>
-          <li>The website is no longer hosted on <a href="http://www.slicehost.com/" target="_blank">Slicehost</a> and
-            it is moved to
-            open-source hosting service provided by <a href="https://github.com/arodic/arodic.github.com" target="_blank">GitHub</a>.
-          </li>
-          <li>Static page generation is handled by <a href="http://octopress.org/" target="_blank">Octopress</a> and
-            comments are
-            powered by <a href="http://disqus.com/" target="_blank">Disqus</a></li>
-        </ul>
-        <p>I don’t have the project page yet, but most of my old projects are still there including:</p>
-        <ul>
-          <li><a href="http://aleksandarrodic.com/p/jellyfish" target="_blank">Old WebGL Jellyfish demo</a></li>
-          <li><a href="http://aleksandarrodic.com/renderman/" target="_blank">Malcolm Kesson’s Renderman course portfolio from SCAD</a></li>
-          <li><a href="http://aleksandarrodic.com/p/mass/" target="_blank">My Gl64k demoscene compo submission</a> based on <a href="http://vimeo.com/5010187" target="_blank">The Origin of Mass</a></li>
-          <li><a href="http://aleksandarrodic.com/p/nyc/" target="_blank">Cityengine to WebGL geometry pipeline demo</a></li>
-          <li><a href="http://aleksandarrodic.com/p/snow/" target="_blank">WebGL greeting card</a></li>
-        </ul>
-      </div>
+      <p>My name is Aki Rodić but most people know me by Aki. I am a technical artist, creative coder or something along those lines.</p>
+      <p>I worked for Electronic Arts, Pixar, LucasArts and I currently work at Google Creative Lab.</p>
+      <p>My biggest passion is bringing high quality 3D graphics to the web and creating tools for all sorts of creative applications.</p>
     </article>
   </div>
-</div>
-<div id="portfolio" class='page'>
-  <a href="#" class="close">[X]</a>
-  <article>
-    <h1>
-      Demo reel 2011
-    </h1>
-    <p>
-      This demo reel represents my best work until 2011.<br />I should probably make a new reel at some point.
-    </p>
-    <iframe src="http://player.vimeo.com/video/26662577" width="720" height="420" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
-  </article>
-  <article>
-    <h2>
-      <img src="images/thumbs/star_wars_1313.jpg" class="thumb">
-      <a href="http://youtu.be/WCCsGd7_kZM" target="_blank">Star Wars 1313</a> is a game in development by LucasArts. I worked on various parts of texturing and shading pipeline and occasionally on some special assets like the <a href="http://www.youtube.com/watch?v=t6-xJnrl93M&t=57s" target="_blank">real-time 3D Hologram projector</a>.
-    </h2>
-  </article>
-  <article>
-    <h2>
-      <img src="images/thumbs/rome.jpg" class="thumb">
-      <a href="http://www.ro.me/tech/" target="_blank">ROME "3 Dreams of Black"</a> is a WebGL project I worked on at Google. It was one of the most ambitious projects of its kind.
-      I have credits for the <a href="http://www.ro.me/asset_viewer/" target="_blank">asset viewer</a> and some of the <a href="http://www.ro.me/tech/video-shader" target="_blank">interactive effects</a> in the experience.
-    </h2>
-  </article>
-  <article>
-    <h2>
-      <img src="images/thumbs/jellyfish.jpg" class="thumb">
-      <a href="http://chrysaora.com/" target="_blank">Chrysaora</a> is one of my first WebGL projects originally commissioned by SCAD as a <a href="https://vimeo.com/20875622" target="_blank">multi-screen installation in Hong Kong</a>
-      Later on, I created <a href="http://aleksandarrodic.com/p/jellyfish" target="_blank">this more refined and optimized jellyfish for the web</a>.
-    </h2>
-  </article>
-  <article>
-    <h2>
-      <img src="images/thumbs/origin_of_mass.jpg" class="thumb">
-      <a href="https://vimeo.com/5010187" target="_blank">The Origin of Mass</a> is another SCAD project made with <a href="http://www.sidefx.com/" target="_blank">Houdini</a>.
-      It is an exercise in procedural modelling that become a motion graphics sensation.
-      I owe the inspiration to demoscene and the music to <a href="https://soundcloud.com/puryx" target="_blank">Puryx</a>
-    </h2>
-  </article>
-</div>
+  <div id="contact" class='page'>
+    <a href="#" class="close">[X]</a>
+    <ul>
+      <li>
+        <a href="mailto:aleksandar.xyz@gmail.com" onclick="tracking('contact','email');" target="_blank">
+          <i class="icon-envelope icon-1x"></i>Write
+        </a>
+      </li>
+      <li>
+        <a href="https://twitter.com/akirodic" onclick="tracking('contact','twitter');" target="_blank">
+          <i class="icon-twitter icon-1x"></i>Follow
+        </a>
+      </li>
+      <li>
+        <a href="https://plus.google.com/110597683886277984552/posts" onclick="tracking('contact','gplus');" target="_blank">
+          <i class="icon-google-plus icon-1x"></i>Add
+        </a>
+      </li>
+      <li>
+        <a href="http://www.linkedin.com/in/aleksandarrodic" onclick="tracking('contact','linkedin');" target="_blank">
+          <i class="icon-linkedin icon-1x"></i>Work
+        </a>
+      </li>
+      <li>
+        <a href="https://github.com/arodic" onclick="tracking('contact','github');" target="_blank"><i class="icon-github-alt icon-1x"></i>Code
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div id="portfolio" class='page'>
+    <a href="#" class="close">[X]</a>
+    <article>
+      <h1>
+        Demo reel 2011
+      </h1>
+      <p>
+        This demo reel represents my best work until 2011.<br />I should probably make a new reel at some point.
+      </p>
+      <iframe src="http://player.vimeo.com/video/26662577" width="720" height="420" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+    </article>
+    <article>
+      <h2>
+        <img src="images/thumbs/star_wars_1313.jpg" class="thumb">
+        <a href="http://youtu.be/WCCsGd7_kZM" target="_blank">Star Wars 1313</a> is a game in development by LucasArts. I worked on various parts of texturing and shading pipeline and occasionally on some special assets like the <a href="http://www.youtube.com/watch?v=t6-xJnrl93M&t=57s" target="_blank">real-time 3D Hologram projector</a>.
+      </h2>
+    </article>
+    <article>
+      <h2>
+        <img src="images/thumbs/rome.jpg" class="thumb">
+        <a href="http://www.ro.me/tech/" target="_blank">ROME "3 Dreams of Black"</a> is a WebGL project I worked on at Google. It was one of the most ambitious projects of its kind.
+        I have credits for the <a href="http://www.ro.me/asset_viewer/" target="_blank">asset viewer</a> and some of the <a href="http://www.ro.me/tech/video-shader" target="_blank">interactive effects</a> in the experience.
+      </h2>
+    </article>
+    <article>
+      <h2>
+        <img src="images/thumbs/jellyfish.jpg" class="thumb">
+        <a href="http://chrysaora.com/" target="_blank">Chrysaora</a> is one of my first WebGL projects originally commissioned by SCAD as a <a href="https://vimeo.com/20875622" target="_blank">multi-screen installation in Hong Kong</a>
+        Later on, I created <a href="http://aleksandarrodic.com/p/jellyfish" target="_blank">this more refined and optimized jellyfish for the web</a>.
+      </h2>
+    </article>
+    <article>
+      <h2>
+        <img src="images/thumbs/origin_of_mass.jpg" class="thumb">
+        <a href="https://vimeo.com/5010187" target="_blank">The Origin of Mass</a> is another SCAD project made with <a href="http://www.sidefx.com/" target="_blank">Houdini</a>.
+        It is an exercise in procedural modelling that become a motion graphics sensation.
+        I owe the inspiration to demoscene and the music to <a href="https://soundcloud.com/puryx" target="_blank">Puryx</a>
+      </h2>
+    </article>
+  </div>
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-68216254-1', 'auto');
+    ga('send', 'pageview');
+  </script>
 </body>
 </html>

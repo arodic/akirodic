@@ -8,15 +8,22 @@ THREE.CSS3DObject = function ( element ) {
 	THREE.Object3D.call( this );
 
 	this.element = element;
-	this.element.style.position = "absolute";
-	this.element.style.WebkitTransformStyle = 'preserve-3d';
-	this.element.style.MozTransformStyle = 'preserve-3d';
-	this.element.style.oTransformStyle = 'preserve-3d';
-	this.element.style.transformStyle = 'preserve-3d';
+	this.element.style.position = 'absolute';
+
+	this.addEventListener( 'removed', function ( event ) {
+
+		if ( this.element.parentNode !== null ) {
+
+			this.element.parentNode.removeChild( this.element );
+
+		}
+
+	} );
 
 };
 
 THREE.CSS3DObject.prototype = Object.create( THREE.Object3D.prototype );
+THREE.CSS3DObject.prototype.constructor = THREE.CSS3DObject;
 
 THREE.CSS3DSprite = function ( element ) {
 
@@ -25,6 +32,7 @@ THREE.CSS3DSprite = function ( element ) {
 };
 
 THREE.CSS3DSprite.prototype = Object.create( THREE.CSS3DObject.prototype );
+THREE.CSS3DSprite.prototype.constructor = THREE.CSS3DSprite;
 
 //
 
@@ -34,36 +42,43 @@ THREE.CSS3DRenderer = function () {
 
 	var _width, _height;
 	var _widthHalf, _heightHalf;
-	var _projector = new THREE.Projector();
 
-	var _tmpMatrix = new THREE.Matrix4();
+	var matrix = new THREE.Matrix4();
 
-	this.domElement = document.createElement( 'div' );
+	var cache = {
+		camera: { fov: 0, style: '' },
+		objects: {}
+	};
 
-	this.domElement.style.overflow = 'hidden';
+	var domElement = document.createElement( 'div' );
+	domElement.style.overflow = 'hidden';
 
-	this.domElement.style.WebkitTransformStyle = 'preserve-3d';
-	this.domElement.style.WebkitPerspectiveOrigin = '50% 50%';
+	domElement.style.WebkitTransformStyle = 'preserve-3d';
+	domElement.style.MozTransformStyle = 'preserve-3d';
+	domElement.style.oTransformStyle = 'preserve-3d';
+	domElement.style.transformStyle = 'preserve-3d';
 
-	this.domElement.style.MozTransformStyle = 'preserve-3d';
-	this.domElement.style.MozPerspectiveOrigin = '50% 50%';
+	this.domElement = domElement;
 
-	this.domElement.style.oTransformStyle = 'preserve-3d';
-	this.domElement.style.oPerspectiveOrigin = '50% 50%';
+	var cameraElement = document.createElement( 'div' );
 
-	this.domElement.style.transformStyle = 'preserve-3d';
-	this.domElement.style.perspectiveOrigin = '50% 50%';
+	cameraElement.style.WebkitTransformStyle = 'preserve-3d';
+	cameraElement.style.MozTransformStyle = 'preserve-3d';
+	cameraElement.style.oTransformStyle = 'preserve-3d';
+	cameraElement.style.transformStyle = 'preserve-3d';
 
-	// TODO: Shouldn't it be possible to remove cameraElement?
+	domElement.appendChild( cameraElement );
 
-	this.cameraElement = document.createElement( 'div' );
+	this.setClearColor = function () {};
 
-	this.cameraElement.style.WebkitTransformStyle = 'preserve-3d';
-	this.cameraElement.style.MozTransformStyle = 'preserve-3d';
-	this.cameraElement.style.oTransformStyle = 'preserve-3d';
-	this.cameraElement.style.transformStyle = 'preserve-3d';
+	this.getSize = function() {
 
-	this.domElement.appendChild( this.cameraElement );
+		return {
+			width: _width,
+			height: _height
+		};
+
+	};
 
 	this.setSize = function ( width, height ) {
 
@@ -73,11 +88,11 @@ THREE.CSS3DRenderer = function () {
 		_widthHalf = _width / 2;
 		_heightHalf = _height / 2;
 
-		this.domElement.style.width = width + 'px';
-		this.domElement.style.height = height + 'px';
+		domElement.style.width = width + 'px';
+		domElement.style.height = height + 'px';
 
-		this.cameraElement.style.width = width + 'px';
-		this.cameraElement.style.height = height + 'px';
+		cameraElement.style.width = width + 'px';
+		cameraElement.style.height = height + 'px';
 
 	};
 
@@ -85,7 +100,7 @@ THREE.CSS3DRenderer = function () {
 
 		return Math.abs( value ) < 0.000001 ? 0 : value;
 
-        };
+	};
 
 	var getCameraCSSMatrix = function ( matrix ) {
 
@@ -110,7 +125,7 @@ THREE.CSS3DRenderer = function () {
 			epsilon( elements[ 15 ] ) +
 		')';
 
-	}
+	};
 
 	var getObjectCSSMatrix = function ( matrix ) {
 
@@ -137,262 +152,101 @@ THREE.CSS3DRenderer = function () {
 
 	};
 
-	this.render = function ( scene, camera ) {
+	var renderObject = function ( object, camera ) {
 
-		var fov = 0.5 / Math.tan( THREE.Math.degToRad( camera.fov * 0.5 ) ) * _height;
+		if ( object instanceof THREE.CSS3DObject ) {
 
-		this.domElement.style.WebkitPerspective = fov + "px";
-		this.domElement.style.MozPerspective = fov + "px";
-		this.domElement.style.oPerspective = fov + "px";
-		this.domElement.style.perspective = fov + "px";
+			var style;
 
-		var objects = _projector.projectScene( scene, camera, false ).objects;
+			if ( object instanceof THREE.CSS3DSprite ) {
 
-		var style = "translate3d(0,0," + fov + "px)" + getCameraCSSMatrix( camera.matrixWorldInverse ) + " translate3d(" + _widthHalf + "px," + _heightHalf + "px, 0)";
+				// http://swiftcoder.wordpress.com/2008/11/25/constructing-a-billboard-matrix/
 
-		this.cameraElement.style.WebkitTransform = style;
-		this.cameraElement.style.MozTransform = style;
-		this.cameraElement.style.oTransform = style;
-		this.cameraElement.style.transform = style;
+				matrix.copy( camera.matrixWorldInverse );
+				matrix.transpose();
+				matrix.copyPosition( object.matrixWorld );
+				matrix.scale( object.scale );
 
-		for ( var i = 0, il = objects.length; i < il; i ++ ) {
+				matrix.elements[ 3 ] = 0;
+				matrix.elements[ 7 ] = 0;
+				matrix.elements[ 11 ] = 0;
+				matrix.elements[ 15 ] = 1;
 
-			var object = objects[ i ].object;
+				style = getObjectCSSMatrix( matrix );
 
-			if ( object instanceof THREE.CSS3DObject) {
+			} else {
 
-				var element = object.element;
+				style = getObjectCSSMatrix( object.matrixWorld );
 
-				if ( object instanceof THREE.CSS3DSprite ) {
+			}
 
-					// http://swiftcoder.wordpress.com/2008/11/25/constructing-a-billboard-matrix/
+			var element = object.element;
+			var cachedStyle = cache.objects[ object.id ];
 
-					_tmpMatrix.copy( camera.matrixWorldInverse );
-					_tmpMatrix.transpose();
-					_tmpMatrix.extractPosition( object.matrixWorld );
-					_tmpMatrix.scale( object.scale );
-
-					_tmpMatrix.elements[ 3 ] = 0;
-					_tmpMatrix.elements[ 7 ] = 0;
-					_tmpMatrix.elements[ 11 ] = 0;
-					_tmpMatrix.elements[ 15 ] = 1;
-
-					style = getObjectCSSMatrix( _tmpMatrix );
-
-				} else {
-
-					style = getObjectCSSMatrix( object.matrixWorld );
-
-				}
-
-//				element.style.WebkitBackfaceVisibility = 'hidden';
-//				element.style.MozBackfaceVisibility = 'hidden';
-//				element.style.oBackfaceVisibility = 'hidden';
-//				element.style.backfaceVisibility = 'hidden';
+			if ( cachedStyle === undefined || cachedStyle !== style ) {
 
 				element.style.WebkitTransform = style;
 				element.style.MozTransform = style;
 				element.style.oTransform = style;
 				element.style.transform = style;
 
-				if ( element.parentNode !== this.cameraElement ) {
+				cache.objects[ object.id ] = style;
 
-					this.cameraElement.appendChild( element );
+			}
 
-				}
+			if ( element.parentNode !== cameraElement ) {
+
+				cameraElement.appendChild( element );
 
 			}
 
 		}
 
-	};
+		for ( var i = 0, l = object.children.length; i < l; i ++ ) {
 
-};
+			renderObject( object.children[ i ], camera );
 
-
-///
-
-/**
- * @author mrdoob / http://mrdoob.com/
- * @author supereggbert / http://www.paulbrunt.co.uk/
- * @author julianwa / https://github.com/julianwa
- */
-
-THREE.Projector = function () {
-
-	var _object, _objectCount, _objectPool = [], _objectPoolLength = 0,
-	_face4Count, _particleCount,
-
-	_renderData = { objects: [], sprites: [], lights: [], elements: [] },
-
-	_vector3 = new THREE.Vector3(),
-	_vector4 = new THREE.Vector4(),
-
-	_viewMatrix = new THREE.Matrix4(),
-	_viewProjectionMatrix = new THREE.Matrix4(),
-
-	_modelMatrix,
-
-	_normalViewMatrix = new THREE.Matrix3(),
-
-	_frustum = new THREE.Frustum();
-
-
-	this.projectVector = function ( vector, camera ) {
-
-		camera.matrixWorldInverse.getInverse( camera.matrixWorld );
-
-		_viewProjectionMatrix.multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse );
-
-		return vector.applyProjection( _viewProjectionMatrix );
+		}
 
 	};
 
-	this.unprojectVector = function ( vector, camera ) {
+	this.render = function ( scene, camera ) {
 
-		camera.projectionMatrixInverse.getInverse( camera.projectionMatrix );
+		var fov = 0.5 / Math.tan( THREE.Math.degToRad( camera.fov * 0.5 ) ) * _height;
 
-		_viewProjectionMatrix.multiplyMatrices( camera.matrixWorld, camera.projectionMatrixInverse );
+		if ( cache.camera.fov !== fov ) {
 
-		return vector.applyProjection( _viewProjectionMatrix );
+			domElement.style.WebkitPerspective = fov + "px";
+			domElement.style.MozPerspective = fov + "px";
+			domElement.style.oPerspective = fov + "px";
+			domElement.style.perspective = fov + "px";
 
-	};
+			cache.camera.fov = fov;
 
-	this.pickingRay = function ( vector, camera ) {
-
-		// set two vectors with opposing z values
-		vector.z = -1.0;
-		var end = new THREE.Vector3( vector.x, vector.y, 1.0 );
-
-		this.unprojectVector( vector, camera );
-		this.unprojectVector( end, camera );
-
-		// find direction from vector to end
-		end.sub( vector ).normalize();
-
-		return new THREE.Raycaster( vector, end );
-
-	};
-
-	var projectGraph = function ( root, sortObjects ) {
-
-		_objectCount = 0;
-
-		_renderData.objects.length = 0;
-		_renderData.sprites.length = 0;
-		_renderData.lights.length = 0;
-
-		var projectObject = function ( parent ) {
-
-			for ( var c = 0, cl = parent.children.length; c < cl; c ++ ) {
-
-				var object = parent.children[ c ];
-
-				if ( object.visible === false ) continue;
-
-					_object = getNextObjectInPool();
-					_object.object = object;
-
-					if ( object.renderDepth !== null ) {
-
-						_object.z = object.renderDepth;
-
-					} else {
-
-						_vector3.getPositionFromMatrix( object.matrixWorld );
-						_vector3.applyProjection( _viewProjectionMatrix );
-						_object.z = _vector3.z;
-
-					}
-
-					_renderData.objects.push( _object );
-
-				projectObject( object );
-
-			}
-
-		};
-
-		projectObject( root );
-
-		if ( sortObjects === true ) _renderData.objects.sort( painterSort );
-
-		return _renderData;
-
-	};
-
-	this.projectScene = function ( scene, camera, sortObjects, sortElements ) {
-
-		var visible = false,
-		o, ol, object;
-
-		_face3Count = 0;
-		_face4Count = 0;
-		_lineCount = 0;
-		_particleCount = 0;
-
-		_renderData.elements.length = 0;
+		}
 
 		scene.updateMatrixWorld();
 
-		if ( camera.parent === undefined ) camera.updateMatrixWorld();
+		if ( camera.parent === null ) camera.updateMatrixWorld();
 
-		_viewMatrix.copy( camera.matrixWorldInverse.getInverse( camera.matrixWorld ) );
-		_viewProjectionMatrix.multiplyMatrices( camera.projectionMatrix, _viewMatrix );
+		camera.matrixWorldInverse.getInverse( camera.matrixWorld );
 
-		_normalViewMatrix.getInverse( _viewMatrix );
-		_normalViewMatrix.transpose();
+		var style = "translate3d(0,0," + fov + "px)" + getCameraCSSMatrix( camera.matrixWorldInverse ) +
+			" translate3d(" + _widthHalf + "px," + _heightHalf + "px, 0)";
 
-		_frustum.setFromMatrix( _viewProjectionMatrix );
+		if ( cache.camera.style !== style ) {
 
-		_renderData = projectGraph( scene, sortObjects );
+			cameraElement.style.WebkitTransform = style;
+			cameraElement.style.MozTransform = style;
+			cameraElement.style.oTransform = style;
+			cameraElement.style.transform = style;
 
-		for ( o = 0, ol = _renderData.objects.length; o < ol; o ++ ) {
-
-			object = _renderData.objects[ o ].object;
-
-			_modelMatrix = object.matrixWorld;
-
-			_vertexCount = 0;
+			cache.camera.style = style;
 
 		}
 
-		for ( o = 0, ol = _renderData.sprites.length; o < ol; o++ ) {
-
-			object = _renderData.sprites[ o ].object;
-
-			_modelMatrix = object.matrixWorld;
-
-		}
-
-		if ( sortElements === true ) _renderData.elements.sort( painterSort );
-
-		return _renderData;
+		renderObject( scene, camera );
 
 	};
-
-	// Pools
-
-	function getNextObjectInPool() {
-
-		if ( _objectCount === _objectPoolLength ) {
-
-			var object = new THREE.RenderableObject();
-			_objectPool.push( object );
-			_objectPoolLength ++;
-			_objectCount ++;
-			return object;
-
-		}
-
-		return _objectPool[ _objectCount ++ ];
-
-	}
-
-	function painterSort( a, b ) {
-
-		return b.z - a.z;
-
-	}
 
 };

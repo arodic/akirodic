@@ -28,7 +28,7 @@ var locked = false;
 var previousHit;
 
 function initControls() {
-  projector = new THREE.Projector();
+  // projector = new THREE.Projector();
   bindTouchStart("#container", function(event){
     touchStart(event);
   });
@@ -54,7 +54,7 @@ function initControls() {
 
 function getIntersections(){
   var vector = new THREE.Vector3( touch.x, touch.y, 1 );
-  projector.unprojectVector( vector, camera );
+  vector = vector.unproject(camera);
   var cameraPos = new THREE.Vector3(camera.matrixWorld.elements[12],camera.matrixWorld.elements[13],camera.matrixWorld.elements[14]);
   raycaster = new THREE.Raycaster( cameraPos, vector.sub( cameraPos ).normalize() );
   var intersects = raycaster.intersectObjects( clickable );
@@ -126,7 +126,7 @@ function touchStart(event){
 
 function touchEnd(event){
   dragging = false;
-  if (dragged < 25 && !animating){
+  if (dragged < 25){
     var hit = getIntersections();
 
     if (hit){
@@ -162,4 +162,3 @@ function bindOrientation(){
       }, true);
   }
 }
-

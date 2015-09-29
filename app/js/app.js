@@ -43,8 +43,8 @@ function init() { // RENDERERS
   initScene();
   initCamera();
   initControls();
-  initFullscreen();
-  initNavigation();
+  // initFullscreen();
+  // initNavigation();
 }
 
 function onWindowResize() {

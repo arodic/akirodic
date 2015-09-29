@@ -7,11 +7,11 @@ var craneVelocity = {
 
 function initCamera(){
   camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 10);
-  camera.position = new THREE.Vector3(0, 0, -1.7);
+  camera.position.set(0, 0, -1.7);
   cameraTarget = new THREE.Object3D();
-  cameraTarget.position = new THREE.Vector3(0, 0.05, 0);
+  cameraTarget.position.set(0, 0.05, 0);
   crane = new THREE.Object3D();
-  crane.position = new THREE.Vector3(0, 1, 0);
+  crane.position.set(0, 1, 0);
   craneTilt = new THREE.Object3D();
 
   scene.add(crane);
@@ -39,6 +39,6 @@ function updateCamera(){
   camera.lookAt(cameraTarget.position);
   camera.updateMatrixWorld();
   for (var i in page) {
-    page[i].label.rotation.setEulerFromRotationMatrix( camera.matrixWorld );
+    page[i].label.rotation.setFromRotationMatrix( camera.matrixWorld );
   }
 }
