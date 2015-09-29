@@ -1,14 +1,6 @@
 {
   "name": "components",
-  "version": "0.0.0",
-  "homepage": "https://github.com/arodic/akirodic",
-  "authors": [
-    "Aki <aki@flux.io>"
-  ],
-  "license": "MIT",
-  "ignore": [
-    "**/.*"
-  ],
+  "private": true,
   "dependencies": {
     "io-boolean": "arodic/io-boolean#master",
     "io-help": "arodic/io-help#master",
@@ -18,16 +10,29 @@
     "io-object": "arodic/io-object#master",
     "io-object-to-array": "arodic/io-object-to-array#master",
     "io-options": "arodic/io-options#master",
+    "io-slider": "arodic/io-slider#master",
+    "io-styles": "arodic/io-styles#master",
     "io-tooltip": "arodic/io-tooltip#master",
-    "io-value": "arodic/io-value#master",
-    "three-js": "arodic/three-js#master",
-    "three-quad-viewport": "arodic/three-quad-viewport#master",
-    "three-renderer": "arodic/three-renderer#master",
-    "three-viewport": "arodic/three-viewport#master"
+    "io-value": "arodic/io-value#master"
+  },
+  "devDependencies": {
+    "web-component-tester": "*",
+    "test-fixture": "PolymerElements/test-fixture#^1.0.0"
   },
   "resolutions": {
-    "io-value": "master",
     "io-boolean": "master",
-    "io-input": "master"
+    "io-help": "master",
+    "io-input": "master",
+    "io-inspector": "master",
+    "io-menu": "master",
+    "io-object": "master",
+    "io-object-to-array": "master",
+    "io-options": "master",
+    "io-slider": "master",
+    "io-styles": "master",
+    "io-tooltip": "master",
+    "io-value": "master",
+    "polymer": "~1.1.2",
+    "three-js": "master"
   }
 }
