@@ -8,7 +8,6 @@ function initScene(){
 
   // TEXTURES / MATERIALS
   texture['wall'] = THREE.ImageUtils.loadTexture("models/wall.jpg");
-  console.log(texture['wall']);
   material['wall'] = new THREE.MeshLambertMaterial({color: 0xFFFFFF, map: texture['wall']});
 
   // MODELS
