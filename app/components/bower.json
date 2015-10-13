@@ -14,7 +14,11 @@
     "io-styles": "arodic/io-styles#master",
     "io-tooltip": "arodic/io-tooltip#master",
     "io-value": "arodic/io-value#master",
-    "io-vector": "arodic/io-vector#master"
+    "io-vector": "arodic/io-vector#master",
+    "three-js": "arodic/three-js#master",
+    "three-renderer": "arodic/three-renderer#master",
+    "three-viewport": "arodic/three-viewport#master",
+    "three-editor": "arodic/three-editor#master"
   },
   "devDependencies": {
     "web-component-tester": "*",
@@ -34,7 +38,12 @@
     "io-tooltip": "master",
     "io-value": "master",
     "io-vector": "master",
+    "three-js": "master",
+    "three-renderer": "master",
+    "three-viewport": "master",
+    "three-editor": "master",
     "iron-list": "~1.1.2",
-    "polymer": "~1.1.2"
+    "polymer": "~1.1.2",
+    "webcomponentsjs": "^0.7.2"
   }
 }
