@@ -1,0 +1,24 @@
+{
+  "node": false,
+  "browser": false,
+  "bitwise": false,
+  "camelcase": false,
+  "curly": false,
+  "eqeqeq": false,
+  "immed": false,
+  "indent": 2,
+  "latedef": false,
+  "noarg": false,
+  "quotmark": "any",
+  "undef": false,
+  "unused": false,
+  "newcap": false,
+  "globals": {
+    "wrap": true,
+    "unwrap": true,
+    "Polymer": true,
+    "Platform": true,
+    "page": true,
+    "app": true
+  }
+}

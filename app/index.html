@@ -1,9 +1,31 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" itemscope itemtype="http://schema.org/Person">
 <head>
+
   <title>Aki Rodic</title>
   <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+
+  <!-- Chrome for Android theme color -->
+  <meta name="theme-color" content="#222222">
+  <!-- Tile color for Win8 -->
+  <meta name="msapplication-TileColor" content="#222222">
+
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="PSK">
+  <link rel="icon" sizes="192x192" href="images/touch/chrome-touch-icon-192x192.png">
+
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Polymer Starter Kit">
+  <link rel="apple-touch-icon" href="images/touch/apple-touch-icon.png">
+
+  <!-- Tile icon for Win8 (144x144) -->
+  <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
+
   <meta name="description" content="Aleksandar Aki Rodic is a creative coder working at Google Creative Lab"/>
 
   <meta itemprop="name" content="Aleksandar Aki Rodic">
@@ -11,25 +33,28 @@
   <meta itemprop="image" content="./images/screenshot.jpg">
 
   <link rel="image_src" href="./images/screenshot.jpg" />
+
+  <script src="components/webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="main-app/main-app.html">
+
   <link href='https://fonts.googleapis.com/css?family=Monda:400,700' rel='stylesheet' type='text/css'>
-  <link href='./style/reset.css' rel='stylesheet' type='text/css'>
-  <link href='./style/main.css' rel='stylesheet' type='text/css'>
   <link href='./style/font-awesome.css' rel='stylesheet' type='text/css'>
 
 </head>
-<body>
-  <script src="./js/lib/three.min.js"></script>
-  <script src="./js/lib/tween.min.js"></script>
-  <script src="./js/lib/CSS3DRenderer.js"></script>
-  <script src="./js/lib/ColladaLoader.js"></script>
-  <script src="./js/lib/Detector.js"></script>
+<body unresolved class="fullbleed layout vertical">
+  <style>
+  body {
+    font-family:  'Monda', sans-serif;
+    margin: 0;
+    overflow: hidden;
+  }
+  </style>
 
-  <script src="./js/app.js"></script>
-  <script src="./js/detector.js"></script>
-  <script src="./js/scene.js"></script>
-  <script src="./js/camera.js"></script>
-  <script src="./js/touches.js"></script>
-  <script src="./js/controls.js"></script>
+  <span id="browser-sync-binding"></span>
+
+  <main-app></main-app>
+
+  <!--
   <div id="container">
     <span id="disabled">Under construction</span>
   </div>
@@ -118,6 +143,7 @@
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
     ga('create', 'UA-68216254-1', 'auto');
     ga('send', 'pageview');
-  </script>
+  </script> -->
+
 </body>
 </html>

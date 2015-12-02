@@ -69,6 +69,7 @@ skip_files:
   - ^(.*/)?.*/RCS/.*
   - ^(.*/)?\..*
   - ^client/tailbone/.*
+  - ^client/node_modules/.*
 
 pagespeed:
   # domains_to_rewrite:

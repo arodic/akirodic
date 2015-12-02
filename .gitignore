@@ -1,3 +1,4 @@
+node_modules
 app/components/*
 !app/components/bower.json
 !app/components/.bowerrc
